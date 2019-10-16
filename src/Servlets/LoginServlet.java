@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginServlet extends HttpServlet {
+    WebLogic.Logic m_WebLogic = new WebLogic.Logic();
     public LoginServlet(){
         super();
     }
@@ -20,7 +21,8 @@ public class LoginServlet extends HttpServlet {
         Map<String,Object> map=new HashMap<String,Object>();
         String username= req.getParameter("username");
         System.out.println(username);
-        map.put("isValid", true);
+        Boolean isValid = m_WebLogic.userExist(username);
+        map.put("isValid", isValid);
         write(res, map);
 //        if(!isValid) {
 //            map.put("isValid", isValid);
