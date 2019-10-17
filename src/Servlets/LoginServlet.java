@@ -24,18 +24,6 @@ public class LoginServlet extends HttpServlet {
         Boolean isValid = m_WebLogic.userExist(username);
         map.put("isValid", isValid);
         write(res, map);
-//        if(!isValid) {
-//            map.put("isValid", isValid);
-//            write(res, map);
-//        }
-//        else{
-////            req.getRequestDispatcher("/HomePage/homePage.jsp").forward(req, res);
-////            req.getRequestDispatcher("/homePage.jsp").forward(req,res);
-//            req.setAttribute("user",username);
-//            RequestDispatcher rd =  req.getRequestDispatcher("homePage.jsp");
-//            rd.forward(req, res);
-//            rd.include(req, res);
-//        }
     }
 
     private void write(HttpServletResponse res, Map<String, Object> map) throws IOException {

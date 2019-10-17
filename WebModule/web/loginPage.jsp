@@ -17,7 +17,7 @@
 <div class="wrap">
     <h2>Login MAGit</h2>
     <form id="login-form">
-       <input id="username" type="text" name="username" placeholder="Username">
+        <input id="username" type="text" name="username" placeholder="Username">
         <input id="submit" type="submit">
     </form>
 </div>

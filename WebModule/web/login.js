@@ -22,8 +22,3 @@ $("#login-form").submit(function (event) {
         }
     });
 });
-
-
-
-
-

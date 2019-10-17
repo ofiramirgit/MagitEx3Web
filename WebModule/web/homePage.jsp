@@ -1,13 +1,4 @@
-<%@ page import="java.util.List" %><%--
-  Created by IntelliJ IDEA.
-  User: amira
-  Date: 13-Oct-19
-  Time: 03:06 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@  page language="java" contentType="text/html" session ="false" %>
-
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
+<%@ page import="java.util.List" %>
 <html>
 <head>
     <title>Home</title>
@@ -17,10 +8,10 @@
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
-<%
-    List<String> notifications= (List<String>)request.getAttribute("notificationsList");
-    List<String> users= (List<String>)request.getAttribute("usersList");
-%>
+<%--<%--%>
+    <%--List<String> notifications= (List<String>)request.getAttribute("notificationsList");--%>
+    <%--List<String> users= (List<String>)request.getAttribute("usersList");--%>
+<%--%>--%>
 <div class="container">
     <div class="row row0">
         <button id="logout" type="button" class="btn btn-danger">LOGOUT</button>
@@ -31,13 +22,9 @@
 
             <h2>NOTIFICATIONS</h2>
             <div class="notifications">
-                <%
-                    for (String noti:notifications) {
-                  %>
-                <li><%= noti %></li>
-                <%
-                    }
-                %>
+                <%--<% for (String noti:notifications) { %>--%>
+                <%--<li><%= noti %></li>--%>
+                <%--<%}%>--%>
             </div>
             <button id="add" type="button" class="btn btn-primary">ADD REPOSITORY</button>
         </div>
@@ -75,13 +62,9 @@
         <div class="col-12">
             <h2>List Users</h2>
             <div class="list-users">
-                <%
-                    for (String user:users) {
-                %>
-                <li class="users-li"><%= user %></li>
-                <%
-                    }
-                %>
+                <%--<% for (String user:users) { %>--%>
+                <%--<li class="users-li"><%= user %></li>--%>
+                <%--<% }%>--%>
             </div>
         </div>
     </div>
