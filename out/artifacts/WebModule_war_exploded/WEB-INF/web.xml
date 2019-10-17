@@ -24,6 +24,15 @@
         <url-pattern>/redirect</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>RedirectUserServlet</servlet-name>
+        <servlet-class>Servlets.RedirectUserServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RedirectUserServlet</servlet-name>
+        <url-pattern>/redirectuser</url-pattern>
+    </servlet-mapping>
 
     <!--<servlet>-->
         <!--<servlet-name>firstPageServlet</servlet-name>-->

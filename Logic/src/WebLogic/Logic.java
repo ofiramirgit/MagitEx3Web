@@ -37,9 +37,20 @@ public class Logic {
         return listNotifications;
     }
 
-    public List<String> getUsers() {
+    public ArrayList<String> getUsers(String username) {
         File file = new File("C:\\magit-ex3\\users.txt");
-        List<String> listUsers = Arrays.asList(getContentOfFile(file).split(System.lineSeparator()));
+//        String[] usersArray = getContentOfFile(file).split(System.lineSeparator());
+        ArrayList<String> listUsers = new ArrayList<String>(Arrays.asList(getContentOfFile(file).split(System.lineSeparator())));
+        listUsers.remove(username);
         return listUsers;
+    }
+
+    public ArrayList<String> getUserRepositories(String username){
+        File[] directories = new File("C:\\magit-ex3\\"+username+"\\repositories").listFiles(File::isDirectory);;
+        ArrayList<String> directoriesList = new ArrayList<String>();
+        for(File folder: directories){
+            directoriesList.add(folder.getName());
+        }
+        return directoriesList;
     }
 }

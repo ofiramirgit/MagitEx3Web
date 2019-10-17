@@ -1,4 +1,5 @@
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <html>
 <head>
     <title>Home</title>
@@ -10,7 +11,8 @@
 <body>
 <%
     List<String> notifications= (List<String>)request.getAttribute("notificationsList");
-    List<String> users= (List<String>)request.getAttribute("usersList");
+    ArrayList<String> users= (ArrayList<String>)request.getAttribute("usersList");
+    ArrayList<String> repositories= (ArrayList<String>)request.getAttribute("repositoriesList");
 %>
 <div class="container">
     <div class="row row0">
@@ -40,20 +42,15 @@
                         <th>Last Commit</th>
                         <th>Commit Msg</th>
                     </tr>
+                    <% for (String repo:repositories) { %>
                     <tr class="repos-tr">
-                        <td>repo1</td>
-                        <td>master</td>
-                        <td>4</td>
-                        <td>18-5-2010</td>
-                        <td>test1</td>
+                        <td><%= repo %></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
-                    <tr class="repos-tr">
-                        <td>repo2</td>
-                        <td>test</td>
-                        <td>2</td>
-                        <td>11-5-2021</td>
-                        <td>test2</td>
-                    </tr>
+                    <%}%>
                 </table>
             </div>
         </div>
@@ -63,16 +60,17 @@
             <h2>List Users</h2>
             <div class="list-users">
                 <% for (String user:users) { %>
-                <li class="users-li"><%= user %></li>
+                <li class="users-li" name="username"><%= user %></li>
                 <% }%>
             </div>
         </div>
     </div>
 </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.js"
-        integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+crossorigin="anonymous"></script>
+
 <script src="home.js"></script>
 
 </html>

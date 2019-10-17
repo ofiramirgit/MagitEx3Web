@@ -14,7 +14,8 @@ $("#login-form").submit(function (event) {
                     url: '/redirect',
                     type: 'GET',
                     dataType: 'json',
-                    data: $("#login-form").serialize()
+                    data: $("#login-form").serialize(),
+                    success:callback
                 });
             }else{
                 alert("NOT success");
