@@ -1,3 +1,4 @@
+
 $("#logout").click(function(){
     alert("logout");
 });
@@ -25,3 +26,12 @@ $(".repos-tr").click(function(){
     });
 });
 
+$("#addButton").click(function(){
+    val=$("#username").text();
+    $.ajax({
+        url: '/readXml',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username":val}
+    });
+    });

@@ -1,5 +1,7 @@
 package Servlets;
 
+import WebLogic.WebLogic;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RedirectServlet extends HttpServlet {
-    WebLogic.Logic m_WebLogic = new WebLogic.Logic();
+    WebLogic m_WebLogic = new WebLogic();
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String username = req.getParameter("username");

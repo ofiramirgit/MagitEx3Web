@@ -61,7 +61,6 @@ public class Logic {
         Path branchesNamesPath = Paths.get(selectedFolder + File.separator + RepositoryName + File.separator + ".magit" + File.separator + "branches" + File.separator + "NAMES.txt");
         Path rootFolderNamePath = Paths.get(selectedFolder + File.separator + RepositoryName + File.separator + ".magit" + File.separator + "RootFolderName.txt");
         Path commitStatusPath = Paths.get(selectedFolder + File.separator + RepositoryName + File.separator + ".magit" + File.separator + "CommitStatus.txt");
-        Path materFilePath = Paths.get(selectedFolder + File.separator + RepositoryName + File.separator + ".magit" + File.separator + "branches" + File.separator + "mater.txt");
         Boolean dirExists = Files.exists(ObjectPath);
         if (dirExists) {
             //todo alert
@@ -75,10 +74,8 @@ public class Logic {
                 Files.createFile(branchesNamesPath);
                 Files.createFile(rootFolderNamePath);
                 Files.createFile(commitStatusPath);
-                Files.createFile(materFilePath);
                 Files.write(activeBranchePath, "master".getBytes());
                 Files.write(branchesNamesPath, "master".getBytes());
-                Files.write(materFilePath, "".getBytes());
                 Files.write(rootFolderNamePath, RepositoryName.getBytes());
             } catch (IOException ioExceptionObj) {
                 //todo catch
@@ -88,7 +85,7 @@ public class Logic {
     //-------initRepository-------End--------
 
     //-------Read XML-------------Start---------
-    public void readXML(String i_XmlFilePath) throws XmlException {
+    public void readXML(String i_XmlFilePath, String i_PathTo) throws XmlException {
         XmlReader xmlReader = new XmlReader();
         try {
             xmlReader.ReadXml(i_XmlFilePath);
@@ -96,13 +93,13 @@ public class Logic {
             e.printStackTrace();
         }
 
-        String[] RepositoryLocation = xmlReader.getLocation();
-        m_ActiveRepository = RepositoryLocation[0] + File.separator + RepositoryLocation[1];
+        String RepositoryName = xmlReader.GetName();
+        m_ActiveRepository = i_PathTo + File.separator + RepositoryName;
         if (!m_InputValidation.checkInputActiveRepository(m_ActiveRepository))
-            createRepository(RepositoryLocation[0],RepositoryLocation[1]);
+            createRepository(i_PathTo,RepositoryName);
         else
             throw new XmlException("Repository Already Exist.", m_ActiveRepository);
-        xmlReader.buildFromXML();
+        xmlReader.buildFromXML(i_PathTo);
         spreadCommitToWc(xmlReader.getActiveBranch());
     }
     //-------Read XML-------------End-----------

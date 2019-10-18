@@ -1,5 +1,6 @@
 package Servlets;
 
+import WebLogic.WebLogic;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginServlet extends HttpServlet {
-    WebLogic.Logic m_WebLogic = new WebLogic.Logic();
+    WebLogic m_WebLogic = new WebLogic();
     public LoginServlet(){
         super();
     }
@@ -20,7 +21,6 @@ public class LoginServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Map<String,Object> map=new HashMap<String,Object>();
         String username= req.getParameter("username");
-        System.out.println(username);
         Boolean isValid = m_WebLogic.userExist(username);
         map.put("isValid", isValid);
         write(res, map);

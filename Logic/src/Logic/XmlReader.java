@@ -52,28 +52,27 @@ public class XmlReader {
         magitRepository = unmarshalledObject.getValue();
     }
 
-    public String[] getLocation() {
-        String[] RepositoryLocation = {magitRepository.getLocation(), magitRepository.getName()};
-        m_Location = RepositoryLocation[0] + File.separator + RepositoryLocation[1];
-        return RepositoryLocation;
+    public String GetName() {
+       return magitRepository.getName();
     }
 
-    public void buildFromXML() throws XmlException {
+
+    public void buildFromXML(String i_PathTo) throws XmlException {
+        m_Location = i_PathTo + File.separator + magitRepository.getName();
         checkIfActiveBranchExist(getActiveBranch());
-        MagitRemoteReferenceType a= magitRepository.getMagitRemoteReference();
-        if(a != null)
-            checkIfMagitRemoteReferenceExist(magitRepository.getMagitRemoteReference());
+      //  MagitRemoteReferenceType a= magitRepository.getMagitRemoteReference();
+      //  if(a != null)
+      //      checkIfMagitRemoteReferenceExist(magitRepository.getMagitRemoteReference());
         //todo    checkIfRemoteTrackingExist(magitRepository);
         Path ActiveBranchFilePath = Paths.get(m_Location + File.separator + ".magit" +File.separator + "branches" +File.separator + "HEAD.txt");
         Path BranchesNamesFilePath = Paths.get(m_Location + File.separator + ".magit" +File.separator + "branches" +File.separator + "NAMES.txt");
         try {
-            Files.write(BranchesNamesFilePath, EmptyString.getBytes());
             Files.write(ActiveBranchFilePath, getActiveBranch().getBytes());
             Path remoteBranchFolder= Paths.get("");
-            if(a != null) {
-                remoteBranchFolder = Paths.get(m_Location + File.separator + ".magit" + File.separator + "branches" + File.separator + magitRepository.getMagitRemoteReference().getName());
-                Files.createDirectory(remoteBranchFolder);
-            }
+          // if(a != null) {
+          //     remoteBranchFolder = Paths.get(m_Location + File.separator + ".magit" + File.separator + "branches" + File.separator + magitRepository.getMagitRemoteReference().getName());
+          //     Files.createDirectory(remoteBranchFolder);
+          // }
             for (MagitSingleBranchType branch : magitRepository.getMagitBranches().getMagitSingleBranch()) {
                 Path BranchPath = Paths.get(m_Location + File.separator + ".magit" + File.separator + "branches" + File.separator + branch.getName() + ".txt");
                 Files.write(BranchesNamesFilePath, (branch.getName() + System.lineSeparator()).getBytes(), StandardOpenOption.APPEND);
@@ -317,6 +316,7 @@ public class XmlReader {
         if(!Exist)
             throw new XmlException("Repository already exists");
     }
+
 
 
 }

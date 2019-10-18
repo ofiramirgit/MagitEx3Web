@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Logic {
+public class WebLogic {
     public Boolean userExist(String username)
     {
         File file = new File("C:\\magit-ex3\\users.txt");
