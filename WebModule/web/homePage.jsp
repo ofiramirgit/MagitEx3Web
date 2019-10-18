@@ -28,7 +28,7 @@
                 <li><%= noti %></li>
                 <%}%>
             </div>
-            <button id="addButton" type="button" class="btn btn-primary">ADD REPOSITORY</button>
+            <button id="addButton" type="button" class="btn btn-primary">ADD REPOSITORY</button> <!--<input type="file" id="xmlFile">!-->
         </div>
 
         <div class="col-7">

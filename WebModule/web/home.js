@@ -28,6 +28,7 @@ $(".repos-tr").click(function(){
 
 $("#addButton").click(function(){
     val=$("#username").text();
+
     $.ajax({
         url: '/readXml',
         type: 'POST',
