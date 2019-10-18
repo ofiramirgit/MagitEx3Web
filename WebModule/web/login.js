@@ -15,7 +15,10 @@ $("#login-form").submit(function (event) {
                     type: 'GET',
                     dataType: 'json',
                     data: $("#login-form").serialize(),
-                    success:callback
+                        success:function (data) {
+                        console.log(data);
+
+                        }
                 });
             }else{
                 alert("NOT success");

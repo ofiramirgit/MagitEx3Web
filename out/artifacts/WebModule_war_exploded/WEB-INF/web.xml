@@ -34,6 +34,16 @@
         <url-pattern>/redirectuser</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>RedirectRepoServlet</servlet-name>
+        <servlet-class>Servlets.RedirectRepoServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RedirectRepoServlet</servlet-name>
+        <url-pattern>/redirectrepo</url-pattern>
+    </servlet-mapping>
+
     <!--<servlet>-->
         <!--<servlet-name>firstPageServlet</servlet-name>-->
         <!--<servlet-class>Servlets.firstPageServlet</servlet-class>-->

@@ -13,7 +13,15 @@ $(".users-li").click(function() {
 });
 
 $(".repos-tr").click(function(){
-    val = ($(this).text());
-    alert(val);
+    repo_name = $(this).find("#repo-name").text();
+    username = $("#username").text();
+
+    $.ajax({
+        url: '/redirectrepo',
+        type: 'GET',
+        dataType: 'json',
+        data: {"repository_name":repo_name,
+                "username":username}
+    });
 });
 
