@@ -13,17 +13,26 @@ import java.nio.file.attribute.FileAttribute;
 public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        System.out.println("imjno");
-  //      try {
-  //          Files.createDirectory();
-  //      } catch (IOException e) {
-  //          e.printStackTrace();
-  //      }
+         try {
+             Files.createDirectories(Paths.get("c:\\magit-ex3-2"));
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        System.out.println("dest");
+        File dir = new File("c:\\magit-ex3-2");
+        deleteDirectory(dir);
+    }
 
+    boolean deleteDirectory(File directoryToBeDeleted) {
+        File[] allContents = directoryToBeDeleted.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                deleteDirectory(file);
+            }
+        }
+        return directoryToBeDeleted.delete();
     }
 }
