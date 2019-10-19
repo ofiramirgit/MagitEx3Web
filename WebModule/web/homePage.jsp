@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="WebLogic.WebObjects.Repository" %>
 <html>
 <head>
     <title>user page - ${user}</title>
@@ -12,7 +13,7 @@
 <%
     List<String> notifications= (List<String>)request.getAttribute("notificationsList");
     ArrayList<String> users= (ArrayList<String>)request.getAttribute("usersList");
-    ArrayList<String> repositories= (ArrayList<String>)request.getAttribute("repositoriesList");
+    ArrayList<Repository> repositories= (ArrayList<Repository>)request.getAttribute("repositoriesList");
 %>
 <div class="container">
     <div class="row row0">
@@ -42,13 +43,13 @@
                         <th>Last Commit</th>
                         <th>Commit Msg</th>
                     </tr>
-                    <% for (String repo:repositories) { %>
+                    <% for (Repository repo:repositories) { %>
                     <tr class="repos-tr">
-                        <td id="repo-name"><%= repo %></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td id="repo-name"><%= repo.getName() %></td>
+                        <td id="repo-activeName"><%= repo.getActiveBranch() %></td>
+                        <td id="repo-branchNum"><%= repo.getBranchesNumber() %></td>
+                        <td id="repo-commitTime"><%= repo.getLastCommitTime() %></td>
+                        <td id="repo-commitMsg"><%= repo.getLastCommitMessege() %></td>
                     </tr>
                     <%}%>
                 </table>

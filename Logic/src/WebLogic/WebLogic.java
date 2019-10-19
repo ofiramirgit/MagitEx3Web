@@ -1,5 +1,8 @@
 package WebLogic;
 
+import Logic.Logic;
+import WebLogic.WebObjects.Repository;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,6 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class WebLogic {
+
+    private Logic logicManager = new Logic();
+
     public Boolean userExist(String username)
     {
         File file = new File("C:\\magit-ex3\\users.txt");
@@ -45,12 +51,29 @@ public class WebLogic {
         return listUsers;
     }
 
-    public ArrayList<String> getUserRepositories(String username){
-        File[] directories = new File("C:\\magit-ex3\\"+username+"\\repositories").listFiles(File::isDirectory);;
-        ArrayList<String> directoriesList = new ArrayList<String>();
-        for(File folder: directories){
-            directoriesList.add(folder.getName());
+    public ArrayList<Repository> getUserRepositories(String username){
+        File[] repositories = new File("C:\\magit-ex3\\"+username+"\\repositories").listFiles(File::isDirectory);
+        ArrayList<Repository> directoriesList = new ArrayList<>();
+
+        for(File repoFile: repositories){
+            directoriesList.add(getRepositoryDetails(repoFile));
         }
         return directoriesList;
+    }
+
+    private Repository getRepositoryDetails(File repoFile) {
+        File branchesDirectory = new File(repoFile.getPath() + File.separator + ".magit" + File.separator +"branches");
+        File headBranchFile = new File( branchesDirectory +File.separator + "HEAD.txt");
+        File activeBranchFile = new File(branchesDirectory +File.separator + logicManager.getContentOfFile(headBranchFile) +".txt");
+        String commitDetails = logicManager.getContentOfZipFile(repoFile + File.separator + ".magit" + File.separator + "objects", logicManager.getContentOfFile(activeBranchFile));
+        Integer branchesNum = branchesDirectory.listFiles().length - 2;
+
+        Repository repo = new Repository();
+        repo.setName(repoFile.getName());
+        repo.setActiveBranch(activeBranchFile.getName().replace(".txt",""));
+        repo.setBranchesNumber(branchesNum.toString());
+        repo.setLastCommitTime(commitDetails.split(",")[3]);
+        repo.setLastCommitMsg(commitDetails.split(",")[2]);
+        return repo;
     }
 }

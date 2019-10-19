@@ -1,4 +1,4 @@
-package Logic.WebObjects;
+package WebLogic.WebObjects;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,7 @@
 package Servlets;
 
 import WebLogic.WebLogic;
+import WebLogic.WebObjects.Repository;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,7 +18,7 @@ public class RedirectUserServlet extends HttpServlet {
         String username = req.getParameter("username");
         if(m_WebLogic.userExist(username)) {
             req.setAttribute("user", username);
-            List<String> repositoriesList = m_WebLogic.getUserRepositories(username);
+            List<Repository> repositoriesList = m_WebLogic.getUserRepositories(username);
             req.setAttribute("repositoriesList", repositoriesList);
             RequestDispatcher rd = req.getRequestDispatcher("user.jsp");
             rd.forward(req, res);

@@ -895,7 +895,7 @@ public class Logic {
         return fileContent;
     }
 
-    private String getContentOfZipFile(String i_Path, String i_ZipName) {
+    public String getContentOfZipFile(String i_Path, String i_ZipName) {
         m_ZipFile.unZipIt(i_Path + File.separator + i_ZipName + ".zip", i_Path);
         File unZippedFile = new File(i_Path + File.separator + i_ZipName + ".txt");
         String contentOfFile = getContentOfFile(unZippedFile);
