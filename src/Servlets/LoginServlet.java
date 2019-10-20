@@ -4,6 +4,7 @@ import WebLogic.WebLogic;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,13 +12,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
     WebLogic m_WebLogic = new WebLogic();
-    public LoginServlet(){
-        super();
-    }
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-    }
+
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Map<String,Object> map=new HashMap<String,Object>();
         String username= req.getParameter("username");

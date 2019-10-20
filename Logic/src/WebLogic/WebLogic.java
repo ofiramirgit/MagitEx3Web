@@ -66,7 +66,7 @@ public class WebLogic {
         File headBranchFile = new File( branchesDirectory +File.separator + "HEAD.txt");
         File activeBranchFile = new File(branchesDirectory +File.separator + logicManager.getContentOfFile(headBranchFile) +".txt");
         String commitDetails = logicManager.getContentOfZipFile(repoFile + File.separator + ".magit" + File.separator + "objects", logicManager.getContentOfFile(activeBranchFile));
-        Integer branchesNum = branchesDirectory.listFiles().length - 2;
+        Integer branchesNum = getTextFiles(branchesDirectory)-2;
 
         Repository repo = new Repository();
         repo.setName(repoFile.getName());
@@ -75,5 +75,14 @@ public class WebLogic {
         repo.setLastCommitTime(commitDetails.split(",")[3]);
         repo.setLastCommitMsg(commitDetails.split(",")[2]);
         return repo;
+    }
+
+    private Integer getTextFiles(File branchesDirectory) {
+        Integer num =0;
+        for(File f : branchesDirectory.listFiles()){
+            if(f.isFile())
+                num++;
+        }
+        return  num;
     }
 }

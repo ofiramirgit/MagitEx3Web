@@ -9,15 +9,13 @@ $("#login-form").submit(function (event) {
         success:
             function (data) {
             if(data.isValid){
-                // alert("success");
                     $.ajax({
-                    url: '/redirect',
+                    url: '/homePage',
                     type: 'GET',
                     dataType: 'json',
                     data: $("#login-form").serialize(),
                         success:function (data) {
                         console.log(data);
-
                         }
                 });
             }else{
