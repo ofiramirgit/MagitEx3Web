@@ -1,5 +1,6 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
+<%@ page import="WebLogic.WebObjects.Repository" %>
 <!DOCDTYPE html>
 <html>
     <head>
@@ -8,11 +9,22 @@
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="repository.css">
+        <script>
+            myCookies={};
+            var kv = document.cookie.split(";");
+            for(var id in kv)
+            {
+                var cookie = kv[id].split("=");
+                myCookies[cookie[0].trim()]=cookie[1];
+            }
+            console.log(myCookies);
+        </script>
     </head>
     <body>
 
     <%
         List<String> notifications= (List<String>)request.getAttribute("notificationsList");
+        Repository repository = (Repository)request.getAttribute("repository");
 //        ArrayList<String> users= (ArrayList<String>)request.getAttribute("usersList");
 //        ArrayList<String> repositories= (ArrayList<String>)request.getAttribute("repositoriesList");
     %>
@@ -22,7 +34,7 @@
         </div>
         <div class="row row1">
           <div class="col-5">
-            <h3>${repository_name}</h3>
+            <h3><%=repository.getName()%></h3>
             <span id="remote_repo">Remote Repo:  <span id="user_rr">User</span></span>
           </div>
           <div class="col-1">
@@ -38,7 +50,7 @@
           </div>
         </div>
         <h3>Branches Details</h3>
-        <span id="head_branch_span">Head Branch:  <span id="head_branch">master</span></span>
+        <span id="head_branch_span">Head Branch:  <span id="head_branch"><%=repository.getActiveBranch()%></span></span>
         <div class="row row3">
           <div class="col-3">
               <button id="create_new_branch" type="button" class="btn btn-primary">New Branch</button>

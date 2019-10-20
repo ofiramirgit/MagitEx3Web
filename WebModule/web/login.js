@@ -1,4 +1,5 @@
 $("#login-form").submit(function (event) {
+    username=$("#username").val();
     event.preventDefault();
     $.ajax({
         url: '/login',
@@ -9,6 +10,11 @@ $("#login-form").submit(function (event) {
         success:
             function (data) {
             if(data.isValid){
+                    sessionStorage.setItem('username',username);
+                    // var expiresAttrib = new Date(Date.now()+60*1000).toString();
+                    var cookieString="";
+                    cookieString = "username="+username+";";
+                    document.cookie=cookieString;
                     $.ajax({
                     url: '/homePage',
                     type: 'GET',
@@ -24,3 +30,4 @@ $("#login-form").submit(function (event) {
         }
     });
 });
+

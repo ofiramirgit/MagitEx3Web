@@ -61,7 +61,7 @@ public class WebLogic {
         return directoriesList;
     }
 
-    private Repository getRepositoryDetails(File repoFile) {
+    public Repository getRepositoryDetails(File repoFile) {
         File branchesDirectory = new File(repoFile.getPath() + File.separator + ".magit" + File.separator +"branches");
         File headBranchFile = new File( branchesDirectory +File.separator + "HEAD.txt");
         File activeBranchFile = new File(branchesDirectory +File.separator + logicManager.getContentOfFile(headBranchFile) +".txt");

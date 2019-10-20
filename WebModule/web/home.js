@@ -33,7 +33,17 @@ $("#addButton").click(function(){
         url: '/readXml',
         type: 'POST',
         dataType: 'json',
-        data: {"username":val}
+        data: {"username":val},
+        success:function(result){
+            console.log(result);
+            if(result.repositoryAdded){
+                location.reload(true);
+            }
+            else
+            {
+                alert("Repository Already Exist");
+            }
+        }
     });
     });
 

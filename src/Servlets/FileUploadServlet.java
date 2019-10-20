@@ -10,8 +10,11 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 
+import com.google.gson.Gson;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.FileItemFactory;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -28,14 +31,20 @@ public class FileUploadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-response.setContentType("text/html");
-PrintWriter out = response.getWriter();
-if(!ServletFileUpload.isMultipartContent(request)){
-out.println("Nothing to upload");
-return;
-}
-FileItemFactory itemfactory = new DiskFileItemFactory();
-ServletFileUpload upload = new ServletFileUpload(itemfactory);
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        if (!ServletFileUpload.isMultipartContent(request)) {
+            out.println("Nothing to upload");
+            return;
+        }
+        FileItemFactory itemfactory = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(itemfactory);
     }
 
+    private void write(HttpServletResponse res, Map<String, Object> map) throws IOException {
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+        res.getWriter().write(new Gson().toJson(map));
+
     }
+}

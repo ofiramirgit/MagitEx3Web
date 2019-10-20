@@ -1,4 +1,6 @@
 <%@ page import="java.util.List" %>
+<%@ page import="WebLogic.WebObjects.Repository" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCDTYPE html>
 <html>
     <head>
@@ -7,11 +9,19 @@
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="user.css">
+        <script>
+            myCookies={};
+            var kv = document.cookie.split(";");
+            for(var id in kv)
+            {
+                var cookie = kv[id].split("=");
+                myCookies[cookie[0].trim()]=cookie[1];
+            }
+            console.log(myCookies);
+        </script>
     </head>
     <body>
-    <%
-    List<String> repositories= (List<String>)request.getAttribute("repositoriesList");
-    %>
+    <% ArrayList<Repository> repositories= (ArrayList<Repository>)request.getAttribute("repositoriesList");%>
       <div class="container">
         <div class="row row0">
             <button id="logout" type="button" class="btn btn-danger">LOGOUT</button>
@@ -29,14 +39,14 @@
                       <th>Last Commit</th>
                       <th>Commit Msg</th>
                   </tr>
-                  <% for (String repo:repositories) { %>
+                  <% for (Repository repo:repositories) { %>
                   <tr class="repos-tr">
-                      <td><%= repo %></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td><button id="fork" type="button" class="btn btn-primary">Fork</button></td>
+                      <td id="repo-name"><%= repo.getName() %></td>
+                      <td id="repo-activeName"><%= repo.getActiveBranch() %></td>
+                      <td id="repo-branchNum"><%= repo.getBranchesNumber() %></td>
+                      <td id="repo-commitTime"><%= repo.getLastCommitTime() %></td>
+                      <td id="repo-commitMsg"><%= repo.getLastCommitMessege() %></td>
+                      <td id="fork_btn"><button class="btn btn-primary">FORK</button></td>
                   </tr>
                   <%}%>
               </table>

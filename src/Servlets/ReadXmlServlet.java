@@ -27,7 +27,8 @@ public class ReadXmlServlet extends HttpServlet {
         }
 
         try {
-            logicManager.readXML("C:\\Users\\amira\\Desktop\\Java\\ex3-medium.xml", "C:\\magit-ex3\\"+username + "\\repositories");
+//            logicManager.readXML("C:\\Users\\amira\\Desktop\\Java\\ex3-medium.xml", "C:\\magit-ex3\\"+username + "\\repositories");
+            logicManager.readXML("C:\\Users\\OL\\Desktop\\Java Course\\ex3-medium.xml", "C:\\magit-ex3\\"+username + "\\repositories");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

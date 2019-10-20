@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/Lib/commons-codec-1.12.jar!/" />
       <root url="jar://$PROJECT_DIR$/Lib/gson-2.6.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Lib/tomcat-coyote-7.0.27.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
