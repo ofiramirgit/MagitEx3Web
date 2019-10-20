@@ -36,3 +36,14 @@ $("#addButton").click(function(){
         data: {"username":val}
     });
     });
+
+$("#forkButton").click(function(){
+    val=$("#username").text();
+
+    $.ajax({
+        url: '/fork',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username":val}
+    });
+});
