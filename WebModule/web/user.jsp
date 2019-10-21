@@ -17,7 +17,10 @@
                 var cookie = kv[id].split("=");
                 myCookies[cookie[0].trim()]=cookie[1];
             }
-            console.log(myCookies);
+            if(!myCookies['username'])
+            {
+                window.location.replace('loginPage.jsp');
+            }
         </script>
     </head>
     <body>

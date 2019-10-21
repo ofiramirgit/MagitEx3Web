@@ -19,6 +19,7 @@ public class LoginServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Map<String,Object> map=new HashMap<String,Object>();
         String username= req.getParameter("username");
+        m_WebLogic.setUserLastLogedIn(username);
         Boolean isValid = m_WebLogic.userExist(username);
         map.put("isValid", isValid);
         write(res, map);

@@ -1,6 +1,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 <%@ page import="WebLogic.WebObjects.Repository" %>
+<%@ page import="WebLogic.WebObjects.Notification" %>
 <!DOCDTYPE html>
 <html>
     <head>
@@ -17,13 +18,17 @@
                 var cookie = kv[id].split("=");
                 myCookies[cookie[0].trim()]=cookie[1];
             }
-            console.log(myCookies);
+            if(!myCookies['username'])
+            {
+                window.location.replace('loginPage.jsp');
+            }
+            // console.log(myCookies['username']);
         </script>
     </head>
     <body>
 
     <%
-        List<String> notifications= (List<String>)request.getAttribute("notificationsList");
+        ArrayList<Notification> notifications= (ArrayList<Notification>)request.getAttribute("notificationsList");
         Repository repository = (Repository)request.getAttribute("repository");
 //        ArrayList<String> users= (ArrayList<String>)request.getAttribute("usersList");
 //        ArrayList<String> repositories= (ArrayList<String>)request.getAttribute("repositoriesList");
@@ -43,8 +48,8 @@
           <div class="col-6">
             <h4>NOTIFICATIONS</h4>
               <div class="notifications">
-                  <% for (String noti:notifications) { %>
-                  <li><%= noti %></li>
+                  <% for (Notification noti:notifications) { %>
+                  <li><%= noti.getM_text() %></li>
                   <%}%>
               </div>
           </div>

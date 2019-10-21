@@ -1,5 +1,6 @@
 package Servlets;
 import WebLogic.WebLogic;
+import WebLogic.WebObjects.Notification;
 import WebLogic.WebObjects.Repository;
 
 import javax.servlet.RequestDispatcher;
@@ -18,7 +19,7 @@ public class RedirectRepoServlet extends HttpServlet {
         String username = req.getParameter("username");
         String repository_name = req.getParameter("repository_name");
         if(m_WebLogic.userExist(username)) {
-            List<String> notificationList = m_WebLogic.getNotifications(username);
+            List<Notification> notificationList = m_WebLogic.getNotifications(username);
             req.setAttribute("notificationsList", notificationList);
             req.setAttribute("user", username);
 //            req.setAttribute("repository_name", repository_name);

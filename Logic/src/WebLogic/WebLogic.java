@@ -1,15 +1,21 @@
 package WebLogic;
 
 import Logic.Logic;
+import WebLogic.WebObjects.Notification;
 import WebLogic.WebObjects.Repository;
+import static Logic.ConstantsEnums.dateFormat;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class WebLogic {
@@ -37,15 +43,31 @@ public class WebLogic {
         return fileContent;
     }
 
-    public List<String> getNotifications(String username) {
+    public ArrayList<Notification> getNotifications(String username) {
+        String userLastLoggedIn = getUserLastLogedIn(username);
         File file = new File("C:\\magit-ex3\\"+username+"\\NOTIFICATIONS.txt");
-        List<String> listNotifications = Arrays.asList(getContentOfFile(file).split(System.lineSeparator()));
+        String[] arrayNotifications = getContentOfFile(file).split(System.lineSeparator());
+        ArrayList<Notification> listNotifications = new ArrayList<Notification>();
+        for(String notification: arrayNotifications)
+        {
+            Notification noti = new Notification(notification);
+            try {
+                Date notiDate = dateFormat.parse(noti.getM_CreatedTime());
+                Date lastLoggedInDate = dateFormat.parse(userLastLoggedIn);
+                if (notiDate.compareTo(lastLoggedInDate) > 0) {
+                    listNotifications.add(noti);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        setUserLastLogedIn(username);
         return listNotifications;
     }
 
+
     public ArrayList<String> getUsers(String username) {
         File file = new File("C:\\magit-ex3\\users.txt");
-//        String[] usersArray = getContentOfFile(file).split(System.lineSeparator());
         ArrayList<String> listUsers = new ArrayList<String>(Arrays.asList(getContentOfFile(file).split(System.lineSeparator())));
         listUsers.remove(username);
         return listUsers;
@@ -85,4 +107,23 @@ public class WebLogic {
         }
         return  num;
     }
+
+    public String getUserLastLogedIn(String username) {
+        File file = new File("C:\\magit-ex3\\"+username+"\\LAST_LOGGED_IN.txt");
+        String lastLogedIn = getContentOfFile(file);
+        return lastLogedIn;
+    }
+
+    public void setUserLastLogedIn(String username) {
+        File file = new File("C:\\magit-ex3\\"+username+"\\LAST_LOGGED_IN.txt");
+        String lastLogedIn = dateFormat.format(new Date());
+        try {
+            file.delete();
+            Files.write(Paths.get(file.toString()), lastLogedIn.getBytes(), StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
