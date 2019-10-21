@@ -11,8 +11,16 @@ $("#logout").click(function(){
 });
 
 $("#fork_btn").click(function(){
-    val = $(this).closest('tr').children('td:first').text();
+    myCookies={};
+    var kv = document.cookie.split(";");
+    for(var id in kv)
+    {
+        var cookie = kv[id].split("=");
+        myCookies[cookie[0].trim()]=cookie[1];
+    }
+    username= myCookies['username'];
+    other_user = $('#other_user').val();
+    repo_name = $(this).closest('tr').children('td:first').text();
 
-    alert(val);
 });
 

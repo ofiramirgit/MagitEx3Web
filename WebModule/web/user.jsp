@@ -29,7 +29,7 @@
         <div class="row row0">
             <button id="logout" type="button" class="btn btn-danger">LOGOUT</button>
         </div>
-          <h1>${user}</h1>
+          <h1 id="other_user">${user}</h1>
         <div class="row row1">
           <div class="col-12">
               <h2>LIST REPOSITORIES</h2>
