@@ -10,8 +10,31 @@ $("#logout").click(function(){
     window.location.replace('loginPage.jsp');
 });
 
-$("#fork").click(function(){
-    val = ($(this).closest("tr"));
-    alert(val.text());
+$('#create_new_branch').click(function () {
+    alert('new branch');
 });
+
+$('#checkout_head_branch').click(function () {
+    alert('checkout head branch');
+});
+$('#show_all_branches').click(function () {
+    alert('show all branches');
+});
+$('#pull').click(function () {
+    alert('pull');
+});
+$('#push').click(function () {
+    alert('push');
+});
+$('#wc').click(function () {
+    alert('wc');
+});
+
+$(".commits-tr").click(function() {
+    commit_sha1 = $(this).find("#commit-sha1").text()
+    alert(commit_sha1);
+});
+
+
+
 

@@ -1,4 +1,5 @@
 package Servlets;
+import Logic.Node.CommitNode;
 import WebLogic.WebLogic;
 import WebLogic.WebObjects.Notification;
 import WebLogic.WebObjects.Repository;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RedirectRepoServlet extends HttpServlet {
@@ -19,13 +21,15 @@ public class RedirectRepoServlet extends HttpServlet {
         String username = req.getParameter("username");
         String repository_name = req.getParameter("repository_name");
         if(m_WebLogic.userExist(username)) {
-            List<Notification> notificationList = m_WebLogic.getNotifications(username);
+            ArrayList<Notification> notificationList = m_WebLogic.getNotifications(username);
             req.setAttribute("notificationsList", notificationList);
             req.setAttribute("user", username);
 //            req.setAttribute("repository_name", repository_name);
             File repoFile = new File("C:\\magit-ex3\\"+username+"\\repositories\\"+repository_name);
             Repository repositoryDetails = m_WebLogic.getRepositoryDetails(repoFile);
             req.setAttribute("repository", repositoryDetails);
+            ArrayList<CommitNode> CommitBranchList = m_WebLogic.getAllBranchCommits(username,repositoryDetails);
+            req.setAttribute("commits", CommitBranchList);
             RequestDispatcher rd = req.getRequestDispatcher("repository.jsp");
             rd.forward(req, res);
         }

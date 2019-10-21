@@ -2,6 +2,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="WebLogic.WebObjects.Repository" %>
 <%@ page import="WebLogic.WebObjects.Notification" %>
+<%@ page import="Logic.Node.CommitNode" %>
+<%@ page import="Logic.Objects.Commit" %>
 <!DOCDTYPE html>
 <html>
     <head>
@@ -29,6 +31,7 @@
 
     <%
         ArrayList<Notification> notifications= (ArrayList<Notification>)request.getAttribute("notificationsList");
+        ArrayList<CommitNode> commitBranch= (ArrayList<CommitNode>)request.getAttribute("commits");
         Repository repository = (Repository)request.getAttribute("repository");
 //        ArrayList<String> users= (ArrayList<String>)request.getAttribute("usersList");
 //        ArrayList<String> repositories= (ArrayList<String>)request.getAttribute("repositoriesList");
@@ -40,7 +43,13 @@
         <div class="row row1">
           <div class="col-5">
             <h3><%=repository.getName()%></h3>
-            <span id="remote_repo">Remote Repo:  <span id="user_rr">User</span></span>
+            <div id="remote_repo">
+                <strong>Remote Repo</strong>
+                <div>
+                    User: <span id="user_rr">User</span><br>
+                    Repo Name: <span id="repo_rr">repo2</span>
+                </div>
+            </div>
           </div>
           <div class="col-1">
 
@@ -66,12 +75,54 @@
           <div class="col-3">
               <button id="show_all_branches" type="button" class="btn btn-primary">Show All Branches</button>
           </div>
-      </div>
+        </div>
+          <h4>Commits</h4>
+
+          <div class="row row4">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <div class="commits">
+                    <table style="width: 100%;">
+                        <tr>
+                            <th>Sha1</th>
+                            <th>message</th>
+                            <th>created date</th>
+                            <th>creater</th>
+                        </tr>
+                        <% for (CommitNode commit:commitBranch) { %>
+                        <tr class="commits-tr">
+                            <td id="commit-sha1"><%= commit.getSha1() %></td>
+                            <td id="commit-msg"><%= commit.getMessage() %></td>
+                            <td id="commit-date"><%= commit.getTimestamp() %></td>
+                            <td id="commit-creater"><%= commit.getCommitter() %></td>
+                        </tr>
+                        <%}%>
+                    </table>
+               </div>
+            </div>
+            <div class="col-1"></div>
+        </div>
+          <h4>WC</h4>
+          <div class="row row5">
+              <div class="col-2"></div>
+              <div class="col-8">
+                  <button id="wc" class="btn btn-primary">WC</button>
+              </div>
+              <div class="col-2"></div>
+          </div>
+          <h4>Collaboration</h4>
+          <div class="row row5">
+              <div class="col-2"></div>
+              <div class="col-4">
+                <button id="pull" class="btn btn-primary">Pull</button>
+              </div>
+              <div class="col-4">
+                <button id="push" class="btn btn-primary">Push</button>
+              </div>
+              <div class="col-2"></div>
+          </div>
     </div>
     </body>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"
-    integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
-    crossorigin="anonymous"></script>
+    <script src="jQuery-v3.4.1.js"></script>
     <script src="repository.js"></script>
-
 </html>

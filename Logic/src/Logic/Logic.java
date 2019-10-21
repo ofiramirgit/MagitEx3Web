@@ -1,5 +1,6 @@
 package Logic;
 
+import Logic.Node.CommitNode;
 import Logic.Objects.*;
 import Logic.Zip.ZipFile;
 import Logic.inputValidation.FilesValidation;
@@ -1085,23 +1086,16 @@ public class Logic {
          });
          return commits;
      }
-
-     private void getAllCommits(String Sha1, List<CommitNode> commits, int index) {
-         Integer prev_branch_number = -1;
-         Commit commit = new Commit(getContentOfZipFile(getPathFolder("objects"), Sha1));
-         if (!listContainSha1(Sha1, commits, index)) {
-             CommitNode commitNode = new CommitNode(commit.getM_CreatedTime(), commit.getM_CreatedBy(), commit.getM_Message(), index, -1, Sha1);
-             commits.add(commitNode);
-             if (!commit.getM_PreviousSHA1().equals("NONE")) {
-                 prev_branch_number = listContainPreviousSha1(commit.getM_PreviousSHA1(), commits);
-                 commits.get(commits.size() - 1).setPrevBranch(prev_branch_number);
-                 if (prev_branch_number == -1) {
-                     getAllCommits(commit.getM_PreviousSHA1(), commits, index);
-                 }
-             }
+*/
+     public void getAllCommits(String Sha1, ArrayList<CommitNode> commits,String username,String repository_name) {
+         Commit commit = new Commit(getContentOfZipFile("C:\\magit-ex3\\"+username+"\\repositories\\"+repository_name+"\\.magit\\objects", Sha1));
+         CommitNode commitNode = new CommitNode(commit.getM_CreatedTime(), commit.getM_CreatedBy(), commit.getM_Message(), Sha1);
+         commits.add(commitNode);
+         if (!commit.getM_PreviousSHA1().equals("NONE")) {
+             getAllCommits(commit.getM_PreviousSHA1(), commits,username,repository_name);
          }
      }
-
+/*
      private Integer listContainPreviousSha1(String m_previousSHA1, List<CommitNode> commits) {
          for(CommitNode commit: commits){
              if(commit.getSha1().equals(m_previousSHA1)) {

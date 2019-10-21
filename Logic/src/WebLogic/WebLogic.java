@@ -1,6 +1,7 @@
 package WebLogic;
 
 import Logic.Logic;
+import Logic.Node.CommitNode;
 import WebLogic.WebObjects.Notification;
 import WebLogic.WebObjects.Repository;
 import static Logic.ConstantsEnums.dateFormat;
@@ -126,4 +127,12 @@ public class WebLogic {
     }
 
 
+    public ArrayList<CommitNode> getAllBranchCommits(String username, Repository repositortDetails) {
+        String activeBranch = repositortDetails.getActiveBranch();
+        File BranchFile = new File("C:\\magit-ex3\\"+username+"\\repositories\\"+repositortDetails.getName()+"\\.magit\\branches\\"+activeBranch+".txt");
+        String Sha1=getContentOfFile(BranchFile);
+        ArrayList<CommitNode> commitBranchList = new ArrayList<>();
+        logicManager.getAllCommits(Sha1,commitBranchList,username,repositortDetails.getName());
+        return commitBranchList;
+    }
 }

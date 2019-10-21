@@ -35,7 +35,7 @@ span{
     font-size: 2vw;
 }
 
-.notifications{
+.notifications,.commits{
     border: solid 1px black;
     border-radius: 10px;
     height:150px;
@@ -47,4 +47,16 @@ span{
 li{
     font-size: 1.5vw;
     margin-left:20px;
+}
+
+table{
+    font-size: 1vw;
+}
+
+#remote_repo{
+    margin-top:30px;
+}
+
+.commits-tr{
+    cursor: pointer;
 }
