@@ -44,7 +44,6 @@
                 <%}%>
             </div>
             <button id="addButton" type="button" class="btn btn-primary">ADD REPOSITORY</button> <!--<input type="file" id="xmlFile">!-->
-            <button id="forkButton" type="button" class="btn btn-primary">Fork</button>
         </div>
 
         <div class="col-7">

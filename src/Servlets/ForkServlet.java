@@ -14,9 +14,9 @@ public class ForkServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Logic logicManager = new Logic();
-        String source = "C:\\magit-ex3\\ofir\\repositories\\repo 2";
-        String dest = "C:\\magit-ex3\\amir\\repositories";
-        String repoName = "repo 2";
+        String source = "C:\\magit-ex3\\"+ req.getParameter("other_user") +"\\repositories\\" + req.getParameter("repo_name");
+        String dest = "C:\\magit-ex3\\" + req.getParameter("username") + "\\repositories";
+        String repoName = req.getParameter("new_repo_name");
 
         logicManager.Clone(source,dest,repoName);
     }

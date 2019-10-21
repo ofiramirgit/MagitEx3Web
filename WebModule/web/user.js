@@ -19,8 +19,16 @@ $("#fork_btn").click(function(){
         myCookies[cookie[0].trim()]=cookie[1];
     }
     username= myCookies['username'];
-    other_user = $('#other_user').val();
+    other_user = $('#other_user').text();
     repo_name = $(this).closest('tr').children('td:first').text();
+    new_repo_name = prompt("Please enter new repository name:", "");
+
+    $.ajax({
+        url: '/fork',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username":username, "other_user":other_user, "repo_name":repo_name, "new_repo_name":new_repo_name}
+    });
 
 });
 

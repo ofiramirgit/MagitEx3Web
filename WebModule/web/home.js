@@ -54,14 +54,3 @@ $("#addButton").click(function(){
         }
     });
     });
-
-$("#forkButton").click(function(){
-    val=$("#username").text();
-
-    $.ajax({
-        url: '/fork',
-        type: 'POST',
-        dataType: 'json',
-        data: {"username":val}
-    });
-});

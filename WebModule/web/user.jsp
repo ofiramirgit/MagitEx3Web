@@ -57,9 +57,7 @@
         </div>
       </div>
     </body>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"
-    integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
-    crossorigin="anonymous"></script>
+    <script src="jQuery-v3.4.1.js"></script>
     <script src="user.js"></script>
 
 </html>
