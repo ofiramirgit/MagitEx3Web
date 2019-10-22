@@ -37,6 +37,13 @@ public class Logic {
         m_CurrentCommitStateMap = new HashMap<>();
     }
 
+    public Logic(String i_ActiveUser, String i_ActiveRepository){
+        m_ActiveUser = i_ActiveUser;
+        m_ActiveRepository = i_ActiveRepository;
+        m_ZipFile = new ZipFile();
+        m_CurrentCommitStateMap = new HashMap<>();
+    }
+
     public String getM_ActiveRepository() {
         return m_ActiveRepository;
     }

@@ -36,6 +36,27 @@ $('#wc').click(function () {
     alert('wc');
 });
 
+$('#commitButton').click(function () {
+    myCookies={};
+    var kv = document.cookie.split(";");
+    for(var id in kv)
+    {
+        var cookie = kv[id].split("=");
+        myCookies[cookie[0].trim()]=cookie[1];
+    }
+    username= myCookies['username'];
+    repo_name = $("#repoName").text();
+    new_commit_msg = prompt("Please enter commit message:", "");
+
+    $.ajax({
+        url: '/commit',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username":username, "repo_name":repo_name, "new_commit_msg":new_commit_msg}
+    });
+});
+
+
 $(".commits-tr").click(function() {
     commit_sha1 = $(this).find("#commit-sha1").text()
     alert(commit_sha1);

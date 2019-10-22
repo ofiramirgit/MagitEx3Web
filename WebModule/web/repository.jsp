@@ -42,7 +42,7 @@
         </div>
         <div class="row row1">
           <div class="col-5">
-            <h3><%=repository.getName()%></h3>
+            <h3 id="repoName"><%=repository.getName()%></h3>
             <div id="remote_repo">
                 <strong>Remote Repo</strong>
                 <div>
@@ -77,7 +77,7 @@
           </div>
         </div>
           <h4>Commits</h4>
-
+          <button id="commitButton" class="btn btn-primary">COMMIT</button>
           <div class="row row4">
             <div class="col-1"></div>
             <div class="col-10">
