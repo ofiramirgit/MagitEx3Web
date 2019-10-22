@@ -23,6 +23,17 @@ public class WebLogic {
 
     private Logic logicManager = new Logic();
 
+    public void addNotification(String other_user, String message) {
+        String date = dateFormat.format(new Date());
+        Notification notification = new Notification(message,date);
+        File file = new File("C:\\magit-ex3\\"+other_user+"\\NOTIFICATIONS.txt");
+        try {
+            Files.write(Paths.get(file.toString()),(System.lineSeparator()+notification.toString()).getBytes(),StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Boolean userExist(String username)
     {
         File file = new File("C:\\magit-ex3\\users.txt");
@@ -45,24 +56,25 @@ public class WebLogic {
     }
 
     public ArrayList<Notification> getNotifications(String username) {
-        String userLastLoggedIn = getUserLastLogedIn(username);
+        String userLastLoggedOut = getUserLastLogedOut(username);
         File file = new File("C:\\magit-ex3\\"+username+"\\NOTIFICATIONS.txt");
         String[] arrayNotifications = getContentOfFile(file).split(System.lineSeparator());
         ArrayList<Notification> listNotifications = new ArrayList<Notification>();
         for(String notification: arrayNotifications)
         {
+            System.out.println(notification);
             Notification noti = new Notification(notification);
+//            System.out.println(noti);
             try {
                 Date notiDate = dateFormat.parse(noti.getM_CreatedTime());
-                Date lastLoggedInDate = dateFormat.parse(userLastLoggedIn);
-                if (notiDate.compareTo(lastLoggedInDate) > 0) {
+                Date lastLoggedOutDate = dateFormat.parse(userLastLoggedOut);
+                if (notiDate.compareTo(lastLoggedOutDate) > 0) {
                     listNotifications.add(noti);
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
-        setUserLastLogedIn(username);
         return listNotifications;
     }
 
@@ -109,14 +121,14 @@ public class WebLogic {
         return  num;
     }
 
-    public String getUserLastLogedIn(String username) {
-        File file = new File("C:\\magit-ex3\\"+username+"\\LAST_LOGGED_IN.txt");
+    public String getUserLastLogedOut(String username) {
+        File file = new File("C:\\magit-ex3\\"+username+"\\LAST_LOGGED_OUT.txt");
         String lastLogedIn = getContentOfFile(file);
         return lastLogedIn;
     }
 
-    public void setUserLastLogedIn(String username) {
-        File file = new File("C:\\magit-ex3\\"+username+"\\LAST_LOGGED_IN.txt");
+    public void setUserLastLogedOut(String username) {
+        File file = new File("C:\\magit-ex3\\"+username+"\\LAST_LOGGED_OUT.txt");
         String lastLogedIn = dateFormat.format(new Date());
         try {
             file.delete();

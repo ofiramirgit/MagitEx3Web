@@ -11,10 +11,10 @@ public class Notification {
 
     public Notification(String notification) {
         String[] noti = notification.split("~");
+        System.out.println(noti[0]);
+        System.out.println(noti[1]);
         this.m_text = noti[0];
         this.m_CreatedTime = noti[1];
-        System.out.println(this.m_text);
-        System.out.println(this.m_CreatedTime);
     }
 
     public String getM_text() {
@@ -31,5 +31,10 @@ public class Notification {
 
     public void setM_CreatedTime(String m_CreatedTime) {
         this.m_CreatedTime = m_CreatedTime;
+    }
+
+    @Override
+    public String toString() {
+        return m_text + "~" + m_CreatedTime;
     }
 }
