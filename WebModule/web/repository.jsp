@@ -52,8 +52,8 @@
             <div id="remote_repo">
                 <strong>Remote Repo</strong>
                 <div>
-                    User: <span id="user_rr">User</span><br>
-                    Repo Name: <span id="repo_rr">repo2</span>
+                    User: <span id="user_rr">ofir</span><br>
+                    Repo Name: <span id="repo_rr">repo 2</span>
                 </div>
             </div>
           </div>

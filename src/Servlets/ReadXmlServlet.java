@@ -16,7 +16,6 @@ import java.util.Map;
 public class ReadXmlServlet extends HttpServlet {
 
     Logic logicManager = new Logic();
-    String path = "C:\\Users\\amira\\Desktop\\Java\\ex3-medium.xml";
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -34,7 +33,7 @@ public class ReadXmlServlet extends HttpServlet {
             System.out.println("im here");
             Boolean repositoryAdded = true;
 //            logicManager.readXML("C:\\Users\\amira\\Desktop\\Java\\ex3-medium.xml", "C:\\magit-ex3\\"+username + "\\repositories");
-            logicManager.readXML("C:\\Users\\OL\\Desktop\\Java Course\\ex3-medium.xml", "C:\\magit-ex3\\" + username + "\\repositories");
+            logicManager.readXML("C:\\Users\\amira\\Desktop\\Java\\ex3-medium.xml", "C:\\magit-ex3\\" + username + "\\repositories");
             System.out.println("im here2");
 
             map.put("repositoryAdded", repositoryAdded);

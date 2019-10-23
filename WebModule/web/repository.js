@@ -105,11 +105,46 @@ function checkout(username,repo_name) {
 $('#show_all_branches').click(function () {
     alert('show all branches');
 });
+
 $('#pull').click(function () {
-    alert('pull');
+    myCookies={};
+    var kv = document.cookie.split(";");
+    for(var id in kv)
+    {
+        var cookie = kv[id].split("=");
+        myCookies[cookie[0].trim()]=cookie[1];
+    }
+    username= myCookies['username'];
+    repo_name = $("#repoName").text();
+    user_rr =$("#user_rr").text();
+    repo_rr =$("#repo_rr").text();
+    $.ajax({
+        url: '/pull',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username":username, "repo_name":repo_name, "user_name_rr":user_rr, "repo_name_rr":repo_rr}
+    });
+
 });
+
 $('#push').click(function () {
-    alert('push');
+    myCookies={};
+    var kv = document.cookie.split(";");
+    for(var id in kv)
+    {
+        var cookie = kv[id].split("=");
+        myCookies[cookie[0].trim()]=cookie[1];
+    }
+    username= myCookies['username'];
+    repo_name = $("#repoName").text();
+    user_rr =$("#user_rr").text();
+    repo_rr =$("#repo_rr").text();
+    $.ajax({
+        url: '/push',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username":username, "repo_name":repo_name, "user_name_rr":user_rr, "repo_name_rr":repo_rr}
+    });
 });
 $('#wc').click(function () {
     alert('wc');

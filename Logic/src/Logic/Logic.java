@@ -44,6 +44,15 @@ public class Logic {
         m_CurrentCommitStateMap = new HashMap<>();
     }
 
+    public Logic(String i_ActiveUser, String i_ActiveRepository, String i_CollaborateWithPath){
+        m_ActiveUser = i_ActiveUser;
+        m_ActiveRepository = i_ActiveRepository;
+        m_ZipFile = new ZipFile();
+        m_CurrentCommitStateMap = new HashMap<>();
+        m_CollaborateWithPath = i_CollaborateWithPath;
+
+    }
+
     public String getM_ActiveRepository() {
         return m_ActiveRepository;
     }
@@ -824,7 +833,7 @@ public class Logic {
     }
 
     private void checkLRandRR(String headBranchNameRR) throws Exception {
-        Path headLR = Paths.get(m_ActiveRepository + File.separator + ".magit" + File.separator +"branches" + File.separator + headBranchNameRR);
+        Path headLR = Paths.get(m_ActiveRepository + File.separator + ".magit" + File.separator +"branches" + File.separator +"RTB" + File.separator+ headBranchNameRR);
         Path headRR = Paths.get(m_CollaborateWithPath + File.separator + ".magit" + File.separator +"branches" + File.separator + headBranchNameRR);
         String headLRstr = new String(Files.readAllBytes(headLR));
         String headRRstr = new String(Files.readAllBytes(headRR));
