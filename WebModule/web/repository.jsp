@@ -4,6 +4,10 @@
 <%@ page import="WebLogic.WebObjects.Notification" %>
 <%@ page import="Logic.Node.CommitNode" %>
 <%@ page import="Logic.Objects.Commit" %>
+<%@ page import="java.nio.file.Path" %>
+<%@ page import="java.nio.file.Paths" %>
+<%@ page import="java.io.File" %>
+<%@ page import="java.nio.file.Files" %>
 <!DOCDTYPE html>
 <html>
     <head>
@@ -41,6 +45,9 @@
         Repository repository = (Repository)request.getAttribute("repository");
 //        ArrayList<String> users= (ArrayList<String>)request.getAttribute("usersList");
 //        ArrayList<String> repositories= (ArrayList<String>)request.getAttribute("repositoriesList");
+     //   Path remoteDataPath = Paths.get("C:\\magit-ex3\\amir\\repositories\\forked1\\RemoteData.txt");
+     //   String remoteDataStr =new String(Files.readAllBytes(remoteDataPath));
+     //   String[] remoteDataArr = remoteDataStr.split(",");
     %>
       <div class="container">
         <div class="row row0">
