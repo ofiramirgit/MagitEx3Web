@@ -324,10 +324,7 @@ public class Logic {
     //-------Show Branch List---------End----------
 
     //-------Check Out Head Branch---------Start--------
-    public void CheckOutHeadBranch(String i_BranchName, Boolean i_toCommit, String Msg) {
-        if (i_toCommit)
-            createCommit(Msg);
-
+    public Boolean CheckOutHeadBranch(String i_BranchName) {
         File rootFolder = new File(m_ActiveRepository + File.separator + getRootFolderName());
         deleteFolder(rootFolder);
         spreadCommitToWc(i_BranchName);
@@ -337,13 +334,15 @@ public class Logic {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return true;
     }
     //-------Check Out Head Branch---------END--------
 
     //-------CreateNewBranch---------Start--------
-    public Boolean createNewBranch(String i_BranchName) {
-        Boolean branchNameNotExist = true;//todo boolean primitive
-        String stringPath = getPathFolder("branches") + File.separator + "NAMES.txt";
+    public Boolean createNewBranch(String i_BranchName,String i_Username,String i_RepoName) {
+
+            Boolean branchNameNotExist = true;//todo boolean primitive
+        String stringPath = "C:\\magit-ex3\\"+i_Username+"\\repositories\\"+i_RepoName+"\\.magit\\branches\\NAMES.txt";
         File branchesNamesFile = new File(stringPath);
         String branchesNames = getContentOfFile(branchesNamesFile);
         String[] names = branchesNames.split(System.lineSeparator());
@@ -354,8 +353,8 @@ public class Logic {
         if (branchNameNotExist) {
             String Sha1CurrentBranch;
             Path path = Paths.get(stringPath);
-            Path BranchPath = Paths.get(getPathFolder("branches") + File.separator + i_BranchName + ".txt");
-            Sha1CurrentBranch = getContentOfFile(new File(getPathFolder("branches") + File.separator + getBranchActiveName() + ".txt"));
+            Path BranchPath = Paths.get("C:\\magit-ex3\\"+i_Username+"\\repositories\\"+i_RepoName+"\\.magit\\branches\\" + i_BranchName + ".txt");
+            Sha1CurrentBranch = getContentOfFile(new File("C:\\magit-ex3\\"+i_Username+"\\repositories\\"+i_RepoName+"\\.magit\\branches\\" + getBranchActiveName() + ".txt"));
             try {
                 Files.createFile(BranchPath);
                 Files.write(BranchPath, Sha1CurrentBranch.getBytes());
@@ -411,10 +410,10 @@ public class Logic {
         WorkingCopyStatus wcOurs = ShowWorkingCopyStatus(getPathFolder("merge") + File.separator + "FatherCommitStatus.txt");
 
         spreadFolder(Sha1Theirs, "Theirs");
-        CheckOutHeadBranch(theirsBranch, false, "");
+        CheckOutHeadBranch(theirsBranch);
         WorkingCopyStatus wcTheirs = ShowWorkingCopyStatus(getPathFolder("merge") + File.separator + "FatherCommitStatus.txt");
 
-        CheckOutHeadBranch(ActiveBranch, false, "");
+        CheckOutHeadBranch(ActiveBranch);
 
         ArrayList<OpenChange> OpenChanges = new ArrayList<>();
         ArrayList<Conflict> ConflictFiles = new ArrayList<>();
@@ -1209,6 +1208,7 @@ public class Logic {
             }
         }
     }
+
 }
 /* -------------------------------------------GENERAL  END------------------------------------- */
 

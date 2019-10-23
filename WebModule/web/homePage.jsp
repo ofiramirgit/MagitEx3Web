@@ -17,9 +17,16 @@
             var cookie = kv[id].split("=");
             myCookies[cookie[0].trim()]=cookie[1];
         }
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var username = url.searchParams.get("username")
         if(!myCookies['username'])
         {
             window.location.replace('loginPage.jsp');
+        }
+        else{
+            if(username!=myCookies['username'])
+                window.location.replace('loginPage.jsp');
         }
     </script>
 </head>
@@ -47,13 +54,24 @@
         </div>
 
         <div class="col-7">
+            <h2>List Users</h2>
+            <div class="list-users">
+                <% for (String user:users) { %>
+                <li class="users-li" name="username"><%= user %></li>
+                <% }%>
+            </div>
+        </div>
+    </div>
+    <div class="row row2">
+
+        <div class="col-12">
             <h2>LIST REPOSITORIES</h2>
             <div class="list-repositories">
                 <table class="repo-table">
                     <tr>
                         <th>Name</th>
                         <th>Active Branch</th>
-                        <th>Amount Of Branches</th>
+                        <th>Branches</th>
                         <th>Last Commit</th>
                         <th>Commit Msg</th>
                     </tr>
@@ -68,16 +86,7 @@
                     <%}%>
                 </table>
             </div>
-        </div>
-    </div>
-    <div class="row row2">
-        <div class="col-12">
-            <h2>List Users</h2>
-            <div class="list-users">
-                <% for (String user:users) { %>
-                <li class="users-li" name="username"><%= user %></li>
-                <% }%>
-            </div>
+
         </div>
     </div>
 </div>
@@ -85,7 +94,9 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"
 integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
 crossorigin="anonymous"></script>
-
+<script src="sweetalert.js"></script>
 <script src="home.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
 
 </html>

@@ -13,43 +13,40 @@ $("#logout").click(function(){
         dataType: 'json',
         data: {"username":username}
     });
-    window.location.replace('loginPage.jsp');
+    Swal.fire({
+        title:'Logged Out',
+        text: 'Logged Out',
+        type: 'success',
+        showConfirmButton: true
+    });
+    window.location.href='loginPage.jsp';
 });
 $(".users-li").click(function() {
-    val = $(this).text();
-    $.ajax({
-        url: '/redirectuser',
-        type: 'GET',
-        dataType: 'json',
-        data: {"username":val}
-    });
+    user = $(this).text();
+    window.location.href='/redirectuser?username='+user;
+
+    username=amir
 });
 
 $(".repos-tr").click(function(){
+    username= myCookies['username'];
     repo_name = $(this).find("#repo-name").text();
-    username = $("#username").text();
+    window.location.href='/redirectrepo?repository_name='+repo_name+'&username='+username;
 
-    $.ajax({
-        url: '/redirectrepo',
-        type: 'GET',
-        dataType: 'json',
-        data: {"repository_name":repo_name,
-                "username":username}
-    });
 });
 
 $("#addButton").click(function(){
-    val=$("#username").text();
+    username=$("#username").text();
 
     $.ajax({
         url: '/readXml',
         type: 'POST',
         dataType: 'json',
-        data: {"username":val},
+        data: {"username":username},
         success:function(result){
-            console.log(result);
             if(result.repositoryAdded){
-                location.reload(true);
+                // location.reload(true);
+                location.reload();
             }
             else
             {
@@ -58,3 +55,4 @@ $("#addButton").click(function(){
         }
     });
     });
+

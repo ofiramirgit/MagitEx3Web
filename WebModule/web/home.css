@@ -33,6 +33,13 @@ li{
     text-align: center;
 
 }
+td{
+    border-left:1px solid #666666;
+    border-right:1px solid #666666;
+}
+td:first-child{
+    border-left: none;
+}
 .repos-tr:hover{
     cursor: pointer;
     color:#ccc;

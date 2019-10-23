@@ -13,16 +13,95 @@ $("#logout").click(function(){
         dataType: 'json',
         data: {"username":username}
     });
-    window.location.replace('loginPage.jsp');
+    Swal.fire({
+        title:'Logged Out',
+        text: 'Logged Out',
+        type: 'success',
+        showConfirmButton: true
+    });
+    window.location.href='loginPage.jsp';
 });
 
 $('#create_new_branch').click(function () {
-    alert('new branch');
+    username= myCookies['username'];
+    repo_name = $("#repoName").text();
+    branch_name = prompt("Please enter branch name:", "");
+    $.ajax({
+        url: '/create_branch',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username":username, "repo_name":repo_name,"branch_name":branch_name},
+        success:function (result) {
+            if(result.isValid)
+            {
+                alert("BRANCH CREATED");
+            }
+            else
+            {
+                alert("BRANCH EXIST ALREADY!");
+            }
+
+        }
+    });
 });
 
 $('#checkout_head_branch').click(function () {
-    alert('checkout head branch');
+    username = myCookies['username'];
+    repo_name = $("#repoName").text();
+    branch_name = prompt("Please enter branch name:", "");
+    $.ajax({
+        url: '/wc_changed',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username": username, "repo_name": repo_name, "branch_name": branch_name},
+        success: function (result) {
+            if(result.isNotChanged)
+            {
+                //checkout
+                checkout(username,repo_name);
+            }
+            else
+            {
+                //ask if to commit
+                Swal.fire({
+                    title: 'There are Open changes',
+                    text: "Do You want to commit those changes first?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Commit!'
+                }).then((result) => {
+                    if (result.value) {
+                        commit(username,repo_name);
+                    }
+                    checkout(username,repo_name);
+                })
+
+            }
+        }
+    });
 });
+
+function checkout(username,repo_name) {
+    $.ajax({
+        url: '/check_out',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username": username, "repo_name": repo_name, "branch_name": branch_name},
+        success: function (result) {
+            if(result.isCheckedOut)
+            {
+                Swal.fire(
+                    'Check Out Head Branch',
+                    'Checked Out Head Branch Successfully!',
+                    'success'
+                )
+            }
+        }
+
+    });
+}
 $('#show_all_branches').click(function () {
     alert('show all branches');
 });
@@ -46,14 +125,8 @@ $('#commitButton').click(function () {
     }
     username= myCookies['username'];
     repo_name = $("#repoName").text();
-    new_commit_msg = prompt("Please enter commit message:", "");
+    commit(username,repo_name);
 
-    $.ajax({
-        url: '/commit',
-        type: 'POST',
-        dataType: 'json',
-        data: {"username":username, "repo_name":repo_name, "new_commit_msg":new_commit_msg}
-    });
 });
 
 
@@ -62,6 +135,13 @@ $(".commits-tr").click(function() {
     alert(commit_sha1);
 });
 
-
-
+function commit(username,repo_name){
+    new_commit_msg = prompt("Please enter commit message:", "");
+    $.ajax({
+        url: '/commit',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username":username, "repo_name":repo_name, "new_commit_msg":new_commit_msg}
+    });
+}
 

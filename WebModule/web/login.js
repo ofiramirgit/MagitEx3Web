@@ -9,21 +9,13 @@ $("#login-form").submit(function (event) {
         data: $("#login-form").serialize(),
         success:
             function (data) {
-            if(data.isValid){
+                if(data.isValid){
                     sessionStorage.setItem('username',username);
                     // var expiresAttrib = new Date(Date.now()+60*1000).toString();
                     var cookieString="";
                     cookieString = "username="+username+";";
                     document.cookie=cookieString;
-                    $.ajax({
-                    url: '/homePage',
-                    type: 'GET',
-                    dataType: 'json',
-                    data: $("#login-form").serialize(),
-                        success:function (data) {
-                        console.log(data);
-                        }
-                });
+                    window.location.href='/homePage?username='+username;
             }else{
                 alert("NOT success");
             }

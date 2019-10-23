@@ -13,10 +13,16 @@ $("#logout").click(function(){
         dataType: 'json',
         data: {"username":username}
     });
-    window.location.replace('loginPage.jsp');
+    Swal.fire({
+        title:'Logged Out',
+        text: 'Logged Out',
+        type: 'success',
+        showConfirmButton: true
+    });
+    window.location.href='loginPage.jsp';
 });
 
-$("#fork_btn").click(function(){
+$(".fork_btn").click(function(){
     myCookies={};
     var kv = document.cookie.split(";");
     for(var id in kv)
@@ -28,14 +34,18 @@ $("#fork_btn").click(function(){
     other_user = $('#other_user').text();
     repo_name = $(this).closest('tr').children('td:first').text();
     new_repo_name = prompt("Please enter new repository name:", "");
-
     $.ajax({
         url: '/fork',
         type: 'POST',
         dataType: 'json',
         data: {"username":username, "other_user":other_user, "repo_name":repo_name, "new_repo_name":new_repo_name}
     });
-
+    Swal.fire({
+        title:'Clone',
+        text: 'Repository Cloned Successfully',
+        type: 'success',
+        timer: 1500
+    });
 });
 
 

@@ -20,11 +20,17 @@
                 var cookie = kv[id].split("=");
                 myCookies[cookie[0].trim()]=cookie[1];
             }
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var username = url.searchParams.get("username")
             if(!myCookies['username'])
             {
                 window.location.replace('loginPage.jsp');
             }
-            // console.log(myCookies['username']);
+            else{
+                if(username!=myCookies['username'])
+                    window.location.replace('loginPage.jsp');
+            }
         </script>
     </head>
     <body>
@@ -125,4 +131,5 @@
     </body>
     <script src="jQuery-v3.4.1.js"></script>
     <script src="repository.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 </html>

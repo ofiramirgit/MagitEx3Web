@@ -21,5 +21,7 @@
 <%--        crossorigin="anonymous"></script>--%>
 <script src="jQuery-v3.4.1.js"></script>
 <script src="login.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
 
 </html>

@@ -49,7 +49,7 @@
                       <td id="repo-branchNum"><%= repo.getBranchesNumber() %></td>
                       <td id="repo-commitTime"><%= repo.getLastCommitTime() %></td>
                       <td id="repo-commitMsg"><%= repo.getLastCommitMessege() %></td>
-                      <td id="fork_btn"><button class="btn btn-primary">FORK</button></td>
+                      <td class="fork_btn"><button class="btn btn-primary">FORK</button></td>
                   </tr>
                   <%}%>
               </table>
@@ -59,5 +59,6 @@
     </body>
     <script src="jQuery-v3.4.1.js"></script>
     <script src="user.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
 </html>
