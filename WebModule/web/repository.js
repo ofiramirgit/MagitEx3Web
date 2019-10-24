@@ -116,7 +116,7 @@ $('#pull').click(function () {
     }
     username= myCookies['username'];
     repo_name = $("#repoName").text();
-    user_rr =$("#user_rr").text();
+    user_rr = $("#user_rr").text();
     repo_rr =$("#repo_rr").text();
     $.ajax({
         url: '/pull',

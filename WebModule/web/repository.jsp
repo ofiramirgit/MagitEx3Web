@@ -43,11 +43,18 @@
         ArrayList<Notification> notifications= (ArrayList<Notification>)request.getAttribute("notificationsList");
         ArrayList<CommitNode> commitBranch= (ArrayList<CommitNode>)request.getAttribute("commits");
         Repository repository = (Repository)request.getAttribute("repository");
-//        ArrayList<String> users= (ArrayList<String>)request.getAttribute("usersList");
-//        ArrayList<String> repositories= (ArrayList<String>)request.getAttribute("repositoriesList");
-     //   Path remoteDataPath = Paths.get("C:\\magit-ex3\\amir\\repositories\\forked1\\RemoteData.txt");
-     //   String remoteDataStr =new String(Files.readAllBytes(remoteDataPath));
-     //   String[] remoteDataArr = remoteDataStr.split(",");
+
+        Path remoteDataPath = Paths.get("C:\\magit-ex3\\" + request.getParameter("username") + "\\repositories\\" +repository.getName() +"\\RemoteData.txt");
+        String remoteName= "-";
+        String remoteRepoName = "-";
+
+        if(Files.exists(remoteDataPath))
+        {
+             String remoteDataStr =new String(Files.readAllBytes(remoteDataPath));
+             remoteName= remoteDataStr.split(",")[0];
+             remoteRepoName = remoteDataStr.split(",")[1];
+        }
+
     %>
       <div class="container">
         <div class="row row0">
@@ -56,13 +63,6 @@
         <div class="row row1">
           <div class="col-5">
             <h3 id="repoName"><%=repository.getName()%></h3>
-            <div id="remote_repo">
-                <strong>Remote Repo</strong>
-                <div>
-                    User: <span id="user_rr">ofir</span><br>
-                    Repo Name: <span id="repo_rr">repo 2</span>
-                </div>
-            </div>
           </div>
           <div class="col-1">
 
@@ -123,16 +123,21 @@
               </div>
               <div class="col-2"></div>
           </div>
-          <h4>Collaboration</h4>
-          <div class="row row5">
-              <div class="col-2"></div>
-              <div class="col-4">
+          <div id = "collaborateDiv">
+              <div id = "Div1"><h3>Collaboration</h3></div>
+              <div id = "Div2">
                 <button id="pull" class="btn btn-primary">Pull</button>
               </div>
-              <div class="col-4">
+              <div id = "Div4" class="col-4">
                 <button id="push" class="btn btn-primary">Push</button>
               </div>
-              <div class="col-2"></div>
+          </div>
+          <div id="remote_repo">
+              <strong>Remote Repo</strong>
+              <div>
+                  Remote User: <h5 id="user_rr"><%=remoteName%></h5><br>
+                  Remote Repository: <h5 id="repo_rr"><%=remoteRepoName%></h5>
+              </div>
           </div>
     </div>
     </body>
