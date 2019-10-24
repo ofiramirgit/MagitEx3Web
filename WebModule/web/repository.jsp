@@ -123,12 +123,13 @@
               </div>
               <div class="col-2"></div>
           </div>
-          <div id = "collaborateDiv">
-              <div id = "Div1"><h3>Collaboration</h3></div>
-              <div id = "Div2">
+          <div>
+          <div id = "collaborateDiv" >
+              <div id = "colla_div"><h3>Collaboration</h3></div>
+              <div id = "pull_div">
                 <button id="pull" class="btn btn-primary">Pull</button>
               </div>
-              <div id = "Div4" class="col-4">
+              <div id = "push_div" class="col-4">
                 <button id="push" class="btn btn-primary">Push</button>
               </div>
           </div>
@@ -138,6 +139,7 @@
                   Remote User: <h5 id="user_rr"><%=remoteName%></h5><br>
                   Remote Repository: <h5 id="repo_rr"><%=remoteRepoName%></h5>
               </div>
+          </div>
           </div>
     </div>
     </body>

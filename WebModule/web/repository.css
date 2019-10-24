@@ -62,22 +62,28 @@ table{
 }
 
 #collaborateDiv{
-    border:1px solid aqua;
-    display: inline;
+    border:3px solid black;
+    height : 200px;
+    width : 400px;
 }
 
-#Div1{
+#colla_div{
     border:1px solid fuchsia;
     float: top;
-    display: inline;
-
 }
 
-#Div2{
+#pull_div{
     border:1px solid yellow;
     display: inline;
 }
-#Div4{
+#push_div{
     border:1px solid yellow;
     display: inline;
+}
+
+#remote_repo{
+    border: 2px solid brown;
+    display: inline;
+    height : 200px;
+    width : 400px;
 }
