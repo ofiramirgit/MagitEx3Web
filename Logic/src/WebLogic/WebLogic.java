@@ -4,6 +4,7 @@ import Logic.Logic;
 import Logic.Node.CommitNode;
 import WebLogic.WebObjects.Notification;
 import WebLogic.WebObjects.Repository;
+import WebLogic.WebObjects.FileObject;
 import static Logic.ConstantsEnums.dateFormat;
 
 import java.io.File;
@@ -14,10 +15,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WebLogic {
 
@@ -146,5 +146,22 @@ public class WebLogic {
         ArrayList<CommitNode> commitBranchList = new ArrayList<>();
         logicManager.getAllCommits(Sha1,commitBranchList,username,repositortDetails.getName());
         return commitBranchList;
+    }
+
+    public ArrayList<FileObject> getAllFiles(String path){
+        ArrayList<FileObject>files = new ArrayList<>();
+        File folder = new File(path);
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            String file=listOfFiles[i].getAbsolutePath().replace("\\","\\\\");
+            System.out.println(file);
+            if (listOfFiles[i].isFile()) {
+                files.add(new FileObject(file,false));
+            } else if (listOfFiles[i].isDirectory()) {
+                files.add(new FileObject(file,true));
+            }
+        }
+        return files;
     }
 }

@@ -14,6 +14,7 @@
         <title>${repository_name}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="repository.css">
         <script>
@@ -63,6 +64,13 @@
         <div class="row row1">
           <div class="col-5">
             <h3 id="repoName"><%=repository.getName()%></h3>
+            <div id="remote_repo">
+                <strong>Remote Repo</strong>
+                <div>
+                    User: <span id="user_rr">ofir</span><br>
+                    Repo Name: <span id="repo_rr">repo 2</span>
+                </div>
+            </div>
           </div>
           <div class="col-1">
 
@@ -123,23 +131,35 @@
               </div>
               <div class="col-2"></div>
           </div>
-          <div>
+
+          <div class="row row6">
+              <div class="col-5">
+                  <div class="files">
+                      <div class="content">
+                          <ul class="fa-ul" id="ul-files">
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-7">
+                  <div class="file_content">
+                      <div class="content">
+                        <textarea id="content"></textarea>
+                      </div>
+                  </div>
+                  <button id="save_file" class="btn btn-primary">save</button>
+
+              </div>
+          </div>
+
           <div id = "collaborateDiv" >
               <div id = "colla_div"><h3>Collaboration</h3></div>
               <div id = "pull_div">
-                <button id="pull" class="btn btn-primary">Pull</button>
+                  <button id="pull" class="btn btn-primary">Pull</button>
               </div>
               <div id = "push_div" class="col-4">
-                <button id="push" class="btn btn-primary">Push</button>
+                  <button id="push" class="btn btn-primary">Push</button>
               </div>
-          </div>
-          <div id="remote_repo">
-              <strong>Remote Repo</strong>
-              <div>
-                  Remote User: <h5 id="user_rr"><%=remoteName%></h5><br>
-                  Remote Repository: <h5 id="repo_rr"><%=remoteRepoName%></h5>
-              </div>
-          </div>
           </div>
     </div>
     </body>
