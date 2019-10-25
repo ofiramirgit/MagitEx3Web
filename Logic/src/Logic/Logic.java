@@ -875,6 +875,29 @@ public class Logic {
 
         return wcStatus;
     }
+
+    //Pull Request PR
+    public void PullRequest() throws Exception {
+
+        Path prPath = Paths.get(m_CollaborateWithPath,".magit","PR");
+        Files.createDirectories(prPath);
+
+        moveHeadBranchToPR();
+
+    }
+
+    private void moveHeadBranchToPR() {
+        String activeBranchName = getBranchActiveName();
+        Path activeBranchPath = Paths.get(m_ActiveRepository,".magit", "branches", activeBranchName+".txt");
+        try {
+            String commitSha1 = new String(Files.readAllBytes(activeBranchPath));
+            Path PR = Paths.get(m_CollaborateWithPath, ".magit", "PR");
+            recursiveMoveFiles(Paths.get(getPathFolder("objects")), PR, commitSha1, FileType.COMMIT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //-------------------------------------------COLLABORATION END-------------------------------------
 
     //-------------------------------------------GENERAL  START-------------------------------------

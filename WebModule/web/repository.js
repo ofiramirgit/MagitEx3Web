@@ -146,6 +146,28 @@ $('#push').click(function () {
         data: {"username":username, "repo_name":repo_name, "user_name_rr":user_rr, "repo_name_rr":repo_rr}
     });
 });
+
+$('#pullRequest').click(function () {
+    myCookies={};
+    var kv = document.cookie.split(";");
+    for(var id in kv)
+    {
+        var cookie = kv[id].split("=");
+        myCookies[cookie[0].trim()]=cookie[1];
+    }
+    username= myCookies['username'];
+    repo_name = $("#repoName").text();
+    user_rr = $("#user_rr").text();
+    repo_rr =$("#repo_rr").text();
+    $.ajax({
+        url: '/pull_request',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username":username, "repo_name":repo_name, "user_name_rr":user_rr, "repo_name_rr":repo_rr}
+    });
+
+});
+
 $('body').on('click', '.li-file', function() {
     let filePath = $(this).attr("path");
     let file_isFolder = $(this).attr("is_folder");

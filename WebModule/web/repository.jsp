@@ -160,6 +160,9 @@
               <div id = "push_div" class="col-4">
                   <button id="push" class="btn btn-primary">Push</button>
               </div>
+              <div id = "pull_request_div" class="col-4">
+                  <button id="pullRequest" class="btn btn-primary">Pull Request</button>
+              </div>
           </div>
     </div>
     </body>
