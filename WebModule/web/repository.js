@@ -102,6 +102,7 @@ function checkout(username,repo_name) {
 
     });
 }
+
 $('#show_all_branches').click(function () {
     alert('show all branches');
 });
@@ -165,7 +166,26 @@ $('#pullRequest').click(function () {
         dataType: 'json',
         data: {"username":username, "repo_name":repo_name, "user_name_rr":user_rr, "repo_name_rr":repo_rr}
     });
+});
 
+$('#merge_pr_button').click(function () {
+    myCookies={};
+    var kv = document.cookie.split(";");
+    for(var id in kv)
+    {
+        var cookie = kv[id].split("=");
+        myCookies[cookie[0].trim()]=cookie[1];
+    }
+    username= myCookies['username'];
+    repo_name = $("#repoName").text();
+    user_rr = $("#user_rr").text();
+    repo_rr =$("#repo_rr").text();
+    $.ajax({
+        url: '/merge_pull_request',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username":username, "repo_name":repo_name, "user_name_rr":user_rr, "repo_name_rr":repo_rr}
+    });
 });
 
 $('body').on('click', '.li-file', function() {

@@ -164,7 +164,13 @@
                   <button id="pullRequest" class="btn btn-primary">Pull Request</button>
               </div>
           </div>
-    </div>
+          <div id = "prDiv" >
+              <div><h4>PR</h4></div>
+              <div id = "merge_pr_div" class="col-4">
+                  <button id="merge_pr_button" class="btn btn-primary">Merge PR</button>
+              </div>
+          </div>
+      </div>
     </body>
     <script src="jQuery-v3.4.1.js"></script>
     <script src="repository.js"></script>

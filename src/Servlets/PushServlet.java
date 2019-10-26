@@ -19,7 +19,7 @@ public class PushServlet extends HttpServlet {
         String RRUserName = req.getParameter("user_name_rr");
         String RRName = req.getParameter("repo_name_rr");
 
-        Logic logicManager = new Logic(username, "C:\\magit-ex3\\" + username + "\\repositories\\" + repo_name, "C:\\magit-ex3\\" + RRUserName + "\\repositories\\" + RRName);
+        Logic logicManager = new Logic(username, "C:\\magit-ex3\\" + username + "\\repositories\\" + repo_name,RRUserName, "C:\\magit-ex3\\" + RRUserName + "\\repositories\\" + RRName);
 
         try {
             logicManager.Push();

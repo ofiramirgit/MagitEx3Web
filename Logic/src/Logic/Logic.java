@@ -44,13 +44,13 @@ public class Logic {
         m_CurrentCommitStateMap = new HashMap<>();
     }
 
-    public Logic(String i_ActiveUser, String i_ActiveRepository, String i_CollaborateWithPath){
+    public Logic(String i_ActiveUser, String i_ActiveRepository, String i_CollaborateName, String i_CollaborateWithPath){
         m_ActiveUser = i_ActiveUser;
         m_ActiveRepository = i_ActiveRepository;
         m_ZipFile = new ZipFile();
         m_CurrentCommitStateMap = new HashMap<>();
         m_CollaborateWithPath = i_CollaborateWithPath;
-
+        m_CollaborateName = i_CollaborateName;
     }
 
     public String getM_ActiveRepository() {
@@ -436,17 +436,13 @@ public class Logic {
     private String findSharedFather(String oursBranch, String theirsBranch) {
         String Sha1Ours = getContentOfFile(new File(getPathFolder("branches"), oursBranch + ".txt"));
         String Sha1Theirs = getContentOfFile(new File(getPathFolder("branches"), theirsBranch + ".txt"));
-        System.out.println("ours: " + Sha1Ours + "   " + "theirs: " + Sha1Theirs);
 
         while (true) {
             if (Sha1Ours.equals(Sha1Theirs)) {
-                System.out.println("Sha1Father:    " + Sha1Ours);
                 break;
             } else {
                 Commit commitOurs = new Commit(getContentOfZipFile(getPathFolder("objects"), Sha1Ours));
                 Commit commitTheirs = new Commit(getContentOfZipFile(getPathFolder("objects"), Sha1Theirs));
-                System.out.println("commitOurs:    " + commitOurs);
-                System.out.println("commitTheirs:  " + commitTheirs);
                 try {
                     Date OursDate = dateFormat.parse(commitOurs.getM_CreatedTime());
                     Date TheirsDate = dateFormat.parse(commitTheirs.getM_CreatedTime());
@@ -879,8 +875,15 @@ public class Logic {
     //Pull Request PR
     public void PullRequest() throws Exception {
 
-        Path prPath = Paths.get(m_CollaborateWithPath,".magit","PR");
+        Path prPath = Paths.get(m_CollaborateWithPath,".magit","PR", m_ActiveUser);
+        Path headBranchtxt = Paths.get(m_CollaborateWithPath,".magit","PR", m_ActiveUser, "HEAD.txt");
+        Path activeBranchPath = Paths.get(m_ActiveRepository,".magit", "branches", getBranchActiveName() +".txt");
+
         Files.createDirectories(prPath);
+
+        Files.createFile(headBranchtxt);
+        Files.write(headBranchtxt, getBranchActiveName().getBytes());
+        Files.copy(activeBranchPath, Paths.get(prPath.toString() , getBranchActiveName() +".txt"), StandardCopyOption.REPLACE_EXISTING);
 
         moveHeadBranchToPR();
 
@@ -891,13 +894,44 @@ public class Logic {
         Path activeBranchPath = Paths.get(m_ActiveRepository,".magit", "branches", activeBranchName+".txt");
         try {
             String commitSha1 = new String(Files.readAllBytes(activeBranchPath));
-            Path PR = Paths.get(m_CollaborateWithPath, ".magit", "PR");
+            Path PR = Paths.get(m_CollaborateWithPath, ".magit", "PR", m_ActiveUser);
             recursiveMoveFiles(Paths.get(getPathFolder("objects")), PR, commitSha1, FileType.COMMIT);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void MergePR(String i_UserLR) { //when user wants to merge
+        String theirsUserName = i_UserLR;
+        Path prPath = Paths.get(m_ActiveRepository, ".magit", "PR",theirsUserName);
+        String headBranchName = getContentOfFile(Paths.get(prPath.toString(),"HEAD.txt").toFile());
+
+        try {
+            movePRtoRepo(theirsUserName);
+             MergeBranches(getBranchActiveName(), headBranchName);
+
+             //todo show conflicts
+             //todo delete PR dir
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void movePRtoRepo(String theirsUserName) throws IOException {
+        Path branchesPath = Paths.get(getPathFolder("branches"));
+        Path objectsPath = Paths.get(getPathFolder("objects"));
+        Path prPath = Paths.get(m_ActiveRepository, ".magit", "PR",theirsUserName);
+        String headBranchName = getContentOfFile(Paths.get(prPath.toString(),"HEAD.txt").toFile());
+
+        Files.copy(Paths.get(prPath.toString(), headBranchName+".txt"), Paths.get(branchesPath.toString(),headBranchName+".txt"), StandardCopyOption.REPLACE_EXISTING);
+
+        for(File file : prPath.toFile().listFiles()){
+            if(!file.getName().equals("HEAD.txt") && !file.getName().equals(headBranchName+".txt")){
+                Files.copy(Paths.get(prPath.toString(), file.getName()), Paths.get(objectsPath.toString(),file.getName()), StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+
+    }
     //-------------------------------------------COLLABORATION END-------------------------------------
 
     //-------------------------------------------GENERAL  START-------------------------------------
@@ -1240,6 +1274,7 @@ public class Logic {
             }
         }
     }
+
 
 }
 /* -------------------------------------------GENERAL  END------------------------------------- */

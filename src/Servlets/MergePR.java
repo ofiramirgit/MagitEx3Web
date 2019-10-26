@@ -9,9 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
-@WebServlet(name = "PullRequestServlet", urlPatterns = {"/pull_request"})
-public class PullRequestServlet extends HttpServlet {
+@WebServlet(name = "MergePR", urlPatterns = {"/merge_pull_request"})
+public class MergePR extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -20,10 +19,10 @@ public class PullRequestServlet extends HttpServlet {
         String RRUserName = req.getParameter("user_name_rr");
         String RRName = req.getParameter("repo_name_rr");
 
-        Logic logicManager = new Logic(username, "C:\\magit-ex3\\" + username + "\\repositories\\" + repo_name,RRUserName, "C:\\magit-ex3\\" + RRUserName + "\\repositories\\" + RRName);
+        Logic logicManager = new Logic(username, "C:\\magit-ex3\\" + username + "\\repositories\\" + repo_name ,RRUserName, "C:\\magit-ex3\\" + RRUserName + "\\repositories\\" + RRName);
 
         try {
-            logicManager.PullRequest();
+            logicManager.MergePR("amir");
         } catch (Exception e) {
             e.printStackTrace();
         }
