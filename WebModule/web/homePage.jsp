@@ -43,7 +43,6 @@
     <h1>Hello <span id="username">${user}</span></h1>
     <div class="row row1">
         <div class="col-5">
-
             <h2>NOTIFICATIONS</h2>
             <div class="notifications">
                 <% for (Notification noti:notifications) { %>
@@ -63,7 +62,6 @@
         </div>
     </div>
     <div class="row row2">
-
         <div class="col-12">
             <h2>LIST REPOSITORIES</h2>
             <div class="list-repositories">

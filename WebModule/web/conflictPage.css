@@ -1,0 +1,15 @@
+.content-text{
+    border: solid 1px black;
+    border-radius: 10px;
+    /*height:150px;*/
+    overflow:scroll;
+    overflow-x:hidden;
+    overflow-y:auto;
+    /*margin-bottom: 20px;*/
+    /*margin-right: 20px;*/
+    margin: 20px;
+}
+/*.options{*/
+    /*left:50%;*/
+    /*right:50%;*/
+/*}*/
