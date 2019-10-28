@@ -35,6 +35,7 @@ public class WcServlet extends HttpServlet {
             }
             path = "C:\\magit-ex3\\"+ username +"\\repositories\\" + repo_name+"\\"+folderName;
         ArrayList <FileObject> mainfolder = m_WebLogic.getAllFiles(path);
+        map.put("mainpath",path);
         map.put("mainfolder", mainfolder);
         write(res, map);
     }

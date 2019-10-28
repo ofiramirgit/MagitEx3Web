@@ -102,7 +102,6 @@ function checkout(username,repo_name) {
 
     });
 }
-
 $('#show_all_branches').click(function () {
     alert('show all branches');
 });
@@ -147,53 +146,28 @@ $('#push').click(function () {
         data: {"username":username, "repo_name":repo_name, "user_name_rr":user_rr, "repo_name_rr":repo_rr}
     });
 });
-
-$('#pullRequest').click(function () {
-    myCookies={};
-    var kv = document.cookie.split(";");
-    for(var id in kv)
-    {
-        var cookie = kv[id].split("=");
-        myCookies[cookie[0].trim()]=cookie[1];
-    }
-    username= myCookies['username'];
-    repo_name = $("#repoName").text();
-    user_rr = $("#user_rr").text();
-    repo_rr =$("#repo_rr").text();
-    $.ajax({
-        url: '/pull_request',
-        type: 'POST',
-        dataType: 'json',
-        data: {"username":username, "repo_name":repo_name, "user_name_rr":user_rr, "repo_name_rr":repo_rr}
-    });
-});
-
-$('#merge_pr_button').click(function () {
-    myCookies={};
-    var kv = document.cookie.split(";");
-    for(var id in kv)
-    {
-        var cookie = kv[id].split("=");
-        myCookies[cookie[0].trim()]=cookie[1];
-    }
-    username= myCookies['username'];
-    repo_name = $("#repoName").text();
-    user_rr = $("#user_rr").text();
-    repo_rr =$("#repo_rr").text();
-    $.ajax({
-        url: '/merge_pull_request',
-        type: 'POST',
-        dataType: 'json',
-        data: {"username":username, "repo_name":repo_name, "user_name_rr":user_rr, "repo_name_rr":repo_rr}
-    });
-});
-
+// function brother_is_selected_and_folder(element){
+//     // console.log(element);
+//     // console.log($(element).parent());
+//     $(element).siblings().removeClass("item-selected");
+// }
 $('body').on('click', '.li-file', function() {
-    let filePath = $(this).attr("path");
-    let file_isFolder = $(this).attr("is_folder");
+    // brother_is_selected_and_folder(this);
+    // $(".li-file").addClass("li-not-item-selected");
+    $("#content").prop("disabled", true);
+    $("#save_file").removeClass("show").addClass("hide");
+    $("#create_delete").removeClass("hide").addClass("show");
+    // $("#buttons-wc").removeClass("hide").addClass("show");
     if (this === event.target) {
-        console.log(filePath);
+        let file_isFolder = $(this).attr("is_folder");
         if (file_isFolder == "false") {
+
+            // $(this).addClass("item-selected");
+            // $(this).removeClass("li-not-item-selected");
+            let filePath = $(this).attr("path");
+            $("#hidden-path").attr("path",filePath);
+            $("#hidden-path").attr("is_folder","false");
+            console.log(filePath);
             $.ajax({
                 url: '/wc_files',
                 type: 'POST',
@@ -208,11 +182,60 @@ $('body').on('click', '.li-file', function() {
     }
 });
 
+$('body').on('click', '.li-folder', function() {
+    $("#content").prop("disabled", true);
+    $("#save_file").removeClass("show").addClass("hide");
+    let filePath = $(this).attr("path");
+    let file_isFolder = $(this).attr("is_folder");
+    if (this === event.target) {
+        $("#hidden-path").attr("path",filePath);
+        $("#hidden-path").attr("is_folder","true");
+        if (file_isFolder == "true") {
+            let icon = $(this).find(".fa").eq(0);
+            let span = $(this).find(".folder");
+            var attribute ="<ul class=\"fa-ul\">";
+            if (icon.hasClass("fa-folder")) {
+                $.ajax({
+                    url: '/wc_files',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {"path": filePath, "isFolder": file_isFolder},
+                    success: function (result) {
+                        icon.toggleClass("fa-folder").toggleClass("fa-folder-open");
+                        for (let i = 0; i < result.mainfolder.length; i++) {
+                            // span.empty();
+                            let fileSplitArray = result.mainfolder[i].path.split("\\\\");
+                            let file_name = fileSplitArray[fileSplitArray.length - 1];
+                            var li_elements = "";
+                            if (!result.mainfolder[i].isFolder) {
+                                li_elements += "<li class=\"li-file\" path=\""+result.mainfolder[i].path+"\" is_folder=\"false\"><span class=\"fa-li\"><i class=\"fa fa-file\"></i></span>" + file_name + "</li>";
+                            } else {
+                                li_elements += "<li class=\"li-folder\" path=\"" + result.mainfolder[i].path + "\" is_folder=\"true\"><span class=\"fa-li\"><i class=\"fa fa-folder\"></i></span>" + file_name + "<span class=\"folder\"></span></li>";
+                            }
+                            attribute += li_elements;
+                        }
+                        attribute += "</ul>";
+                        span.append(attribute);
+
+
+                    }
+                });
+
+            } else {
+                console.log("in else");
+                icon.toggleClass("fa-folder-open").toggleClass("fa-folder");
+                console.log($(this).find(".li-file"));
+                $(this).find(".li-file").remove();
+                $(this).find(".li-folder").remove();
+                $(this).find(".fa-ul").remove();
+            }
+        }
+    }
+});
+
 $('#save_file').click(function(){
     let filePath = $('#save_file').attr("file_path");
     let file_new_content = $('#content').val();
-    console.log(filePath);
-    console.log(file_new_content);
     $.ajax({
         url: '/save_file',
         type: 'POST',
@@ -224,55 +247,11 @@ $('#save_file').click(function(){
     });
 });
 
-$('body').on('click', '.li-folder', function() {
-    // do something
-    let filePath = $(this).attr("path");
-    let file_isFolder = $(this).attr("is_folder");
-    if (this === event.target) {
-        if (file_isFolder == "true") {
-            let icon = $(this).find(".fa");
-            let span = $(this).find(".folder");
-            console.log(span);
-            if (icon.hasClass("fa-folder")) {
-                console.log("in if");
-                $.ajax({
-                    url: '/wc_files',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {"path": filePath, "isFolder": file_isFolder},
-                    success: function (result) {
-                        icon.toggleClass("fa-folder").toggleClass("fa-folder-open");
-                        for (let i = 0; i < result.mainfolder.length; i++) {
-
-                            let fileSplitArray = result.mainfolder[i].path.split("\\\\");
-                            let file_name = fileSplitArray[fileSplitArray.length - 1];
-                            var li_elements = "";
-                            if (!result.mainfolder[i].isFolder) {
-                                li_elements += "<li class=\"li-file\" path=\"" + result.mainfolder[i].path + "\" is_folder=\"false\"><span class=\"fa-li\"><i class=\"fa fa-file\"></i></span>" + file_name + "</li>";
-                            } else {
-                                li_elements += "<li class=\"li-folder\" path=\"" + result.mainfolder[i].path + "\" is_folder=\"true\"><span class=\"fa-li\"><i class=\"fa fa-folder\"></i></span>" + file_name + "<span class=\"folder\"></span></li>";
-                            }
-                            var attribute = "<ul class=\"fa-ul\">" + li_elements + " </ul>";
-                            span.append(attribute);
-                        }
-                    }
-                });
-
-            } else {
-console.log("in else");
-                icon.toggleClass("fa-folder-open").toggleClass("fa-folder");
-                console.log($(this).find(".li-file"));
-                $(this).find(".li-file").remove();
-                $(this).find(".li-folder").remove();
-                // span.remove();
-                // $( ".li-file" ).remove();
-            }
-
-        }
-    }
+$('#wc').click(function () {
+    getRepositoryWc();
 });
 
-$('#wc').click(function () {
+function getRepositoryWc(){
     username= myCookies['username'];
     repo_name = $("#repoName").text();
     $.ajax({
@@ -281,7 +260,9 @@ $('#wc').click(function () {
         dataType: 'json',
         data: {"username":username, "repo_name":repo_name},
         success:function (result) {
-            console.log(result.mainfolder);
+            $("#buttons-wc").removeClass("hide").addClass("show");
+            $("#hidden-path").attr("is_folder","true");
+            $("#hidden-path").attr("path",result.mainpath);
             for(let i = 0; i < result.mainfolder.length; i++){
                 let fileSplitArray = result.mainfolder[i].path.split("\\\\");
                 let file_name = fileSplitArray[fileSplitArray.length-1];
@@ -294,6 +275,89 @@ $('#wc').click(function () {
             }
         }
     });
+}
+
+
+$('#create-btn').click(function () {
+    let file_name = prompt("Please enter file name:", "");
+    let filePath = $('#hidden-path').attr("path");
+    let folderPath = filePath;
+    let is_folder = $('#hidden-path').attr("is_folder");
+    let elementToInsertInto;
+    if(is_folder=="false") {
+        let elements = $('.li-file[path]');
+        for (let i = 0; i <= elements.length; i++) {
+            if (elements.eq(i).attr("path") == filePath) {
+                // elementToInsertInto = elements.eq(i);
+                let parentElement = elements.eq(i).closest(".li-folder");
+                folderPath = parentElement.attr("path");
+                elementToInsertInto = elements.eq(i).closest(".fa-ul");
+            }
+        }
+    }else{
+        let elements = $('.li-folder[path]');
+        for (let i = 0; i <= elements.length; i++) {
+            if (elements.eq(i).attr("path") == filePath) {
+                // elementToInsertInto = elements.eq(i);
+                // let parentElement = elements.eq(i).closest(".li-folder");
+                console.log(elements.eq(i));
+                folderPath = elements.eq(i).attr("path");
+                elementToInsertInto = elements.eq(i).children('.folder').children(".fa-ul");
+                // console.log(folderPath);
+
+            }
+        }
+    }
+    $.ajax({
+        url: '/create_file',
+        type: 'POST',
+        dataType: 'json',
+        data: {"file_name": file_name, "folderPath":folderPath},
+        success: function (result) {
+            if(result.result) {
+                console.log(result);
+                console.log(elementToInsertInto);
+                // let faulElement = elementToInsertInto.closest(".fa-ul");
+                let li_element = "<li class=\"li-file\" path=\"" + folderPath + "\\" + file_name + "\" is_folder=\"false\"><span class=\"fa-li\"><i class=\"fa fa-file\"></i></span>" + file_name + "</li>";
+                elementToInsertInto.append(li_element);
+            }
+            // $("#content").prop("disabled", false);
+            // $("#save_file").removeClass("hide").addClass("show");
+        }
+    });
+
+});
+
+$('#edit-btn').click(function () {
+    let is_folder = $('#hidden-path').attr("is_folder");
+    if(is_folder=="false") {
+        $("#content").prop("disabled", false);
+        $("#save_file").removeClass("hide").addClass("show");
+    }else{
+        alert("you have to select file to edit");
+    }
+});
+
+$('#delete-btn').click(function () {
+    let filePath = $('#hidden-path').attr("path");
+    if($('#hidden-path').attr("is_folder")=="false") {
+        $.ajax({
+            url: '/delete_file',
+            type: 'POST',
+            dataType: 'json',
+            data: {"path": filePath},
+            success: function (data) {
+                if (data.result) {
+                    $("#ul-files").empty();
+                    getRepositoryWc();
+                    $("#content").val("");
+                    $("#content").prop("disabled", true);
+                }
+            }
+        });
+    } else {
+        alert("you can delete only files");
+    }
 });
 
 $('#commitButton').click(function () {
@@ -309,7 +373,6 @@ $('#commitButton').click(function () {
     commit(username,repo_name);
 
 });
-
 
 $(".commits-tr").click(function() {
     commit_sha1 = $(this).find("#commit-sha1").text()

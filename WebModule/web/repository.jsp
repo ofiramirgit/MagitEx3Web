@@ -142,16 +142,34 @@
                   </div>
               </div>
               <div class="col-7">
-                  <div class="file_content">
-                      <div class="content">
-                        <textarea id="content"></textarea>
+                  <div class="row row8">
+                      <div class="col-10">
+                          <div class="file_content">
+                              <div class="content">
+                                <textarea id="content" disabled></textarea>
+                                  <input id="hidden-path" path="" is_folder="" class="hide"/>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-2">
+                          <div id="buttons-wc" class="hide">
+                              <button id="create-btn" class="newbtn"><i class="fa fa-plus-circle wc-buttons"></i></button>
+                              <span id="create_delete" class="hide">
+                                  <button id="edit-btn" class="newbtn"><i class="fa fa-edit wc-buttons"></i></button>
+                                  <button id="delete-btn" class="newbtn" ><i class="fa fa-trash wc-buttons"></i></button>
+                              </span>
+                        </div>
                       </div>
                   </div>
-                  <button id="save_file" class="btn btn-primary">save</button>
-
               </div>
           </div>
-
+          <div class="row row9">
+              <div class="col-2"></div>
+              <div class="col-8">
+                  <button id="save_file" class="btn btn-primary btn_save hide">save</button>
+              </div>
+              <div class="col-2"></div>
+          </div>
           <div id = "collaborateDiv" >
               <div id = "colla_div"><h3>Collaboration</h3></div>
               <div id = "pull_div">

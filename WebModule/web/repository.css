@@ -102,7 +102,39 @@ table{
     min-height:150px;
     width: 100%;
     resize: none;
-    /*overflow:scroll;*/
-    /*overflow-x:hidden;*/
-    /*overflow-y:auto;*/
 }
+
+.newbtn {
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding: 10% 15%;
+    cursor: pointer;
+    border-radius: 10%;
+    margin-top: 7%;
+}
+.newbtn:hover {
+    background-color: RoyalBlue;
+}
+
+
+.wc-buttons{
+    font-size: 2vw;
+}
+.btn_save{
+    width: 100%;
+}
+.hide{
+    visibility: hidden;
+}
+.show{
+    visibility: visible;
+}
+
+/*.item-selected{*/
+    /*color:#999;*/
+/*}*/
+
+/*.li-not-item-selected{*/
+    /*color:#222;*/
+/*}*/
