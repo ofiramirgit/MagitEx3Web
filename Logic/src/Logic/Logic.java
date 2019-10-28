@@ -53,6 +53,7 @@ public class Logic {
         m_CollaborateName = i_CollaborateName;
     }
 
+
     public String getM_ActiveRepository() {
         return m_ActiveRepository;
     }
