@@ -26,14 +26,14 @@ public class WcServlet extends HttpServlet {
         String repo_name = req.getParameter("repo_name");
         String path = req.getParameter("path");
         WebLogic m_WebLogic = new WebLogic();
-            ArrayList<FileObject> files = m_WebLogic.getAllFiles("C:\\magit-ex3\\" + username + "\\repositories\\" + repo_name);
-            String[] folderArratName = files.get(0).getPath().split("\\\\");
-            String folderName = folderArratName[folderArratName.length-1];
-            if (folderName.equals(".magit")) {
-                folderArratName = files.get(1).getPath().split("\\\\");
-                folderName = folderArratName[folderArratName.length-1];
-            }
-            path = "C:\\magit-ex3\\"+ username +"\\repositories\\" + repo_name+"\\"+folderName;
+        ArrayList<FileObject> files = m_WebLogic.getAllFiles("C:\\magit-ex3\\" + username + "\\repositories\\" + repo_name);
+        String[] folderArratName = files.get(0).getPath().split("\\\\");
+        String folderName = folderArratName[folderArratName.length-1];
+        if (folderName.equals(".magit")) {
+            folderArratName = files.get(1).getPath().split("\\\\");
+            folderName = folderArratName[folderArratName.length-1];
+        }
+        path = "C:\\magit-ex3\\"+ username +"\\repositories\\" + repo_name+"\\"+folderName;
         ArrayList <FileObject> mainfolder = m_WebLogic.getAllFiles(path);
         map.put("mainpath",path);
         map.put("mainfolder", mainfolder);
