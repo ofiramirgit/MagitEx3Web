@@ -1,6 +1,7 @@
 package Servlets;
 
 import Logic.Logic;
+import WebLogic.WebLogic;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,9 +22,11 @@ public class PullRequestServlet extends HttpServlet {
         String RRName = req.getParameter("repo_name_rr");
 
         Logic logicManager = new Logic(username, "C:\\magit-ex3\\" + username + "\\repositories\\" + repo_name,RRUserName, "C:\\magit-ex3\\" + RRUserName + "\\repositories\\" + RRName);
+        WebLogic webLogic = new WebLogic();
 
         try {
             logicManager.PullRequest();
+            webLogic.addNotification(RRUserName, "You Have Pull Request From " + username);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -166,6 +166,12 @@ $('#pullRequest').click(function () {
         dataType: 'json',
         data: {"username":username, "repo_name":repo_name, "user_name_rr":user_rr, "repo_name_rr":repo_rr}
     });
+    Swal.fire({
+        title:'Pull Request',
+        text: 'Pull Request sent Successfully',
+        type: 'success',
+        timer: 1500
+    });
 });
 
 $('#merge_pr_button').click(function () {

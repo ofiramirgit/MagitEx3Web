@@ -903,7 +903,7 @@ public class Logic {
 
     public void MergePR(String i_UserLR) { //when user wants to merge
         String theirsUserName = i_UserLR;
-        Path prPath = Paths.get(m_ActiveRepository, ".magit", "PR",theirsUserName);
+        Path prPath = Paths.get(m_ActiveRepository, ".magit", "PR", theirsUserName);
         String headBranchName = getContentOfFile(Paths.get(prPath.toString(),"HEAD.txt").toFile());
 
         try {
