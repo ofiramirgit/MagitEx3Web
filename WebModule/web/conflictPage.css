@@ -9,7 +9,30 @@
     /*margin-right: 20px;*/
     margin: 20px;
 }
-/*.options{*/
-    /*left:50%;*/
-    /*right:50%;*/
-/*}*/
+.result{
+    border: solid 2px dodgerblue;
+
+}
+tr{
+    cursor: pointer;
+    background: #b8d1f3;
+    width: 100%;
+}
+
+tr:nth-child(odd){
+    background: #b8d1f3;
+}
+tr:nth-child(even){
+    background: #dae5f4;
+}
+tr:first-child{
+    background: #FFF;
+
+}
+.textarea{
+    height: 80%;
+    width: 100%;
+}
+.hide{
+    visibility: hidden;
+}

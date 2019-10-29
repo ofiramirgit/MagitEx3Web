@@ -1,6 +1,6 @@
 <%@ page import="Logic.Conflict" %>
-<%@ page import="Logic.OpenAndConflict" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Logic.OpenChange" %><%--
   Created by IntelliJ IDEA.
   User: OL
   Date: 28/10/2019
@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Conflicts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -18,49 +18,70 @@
 </head>
 <body>
 <%
-    ArrayList<OpenAndConflict> openAndConflicts= (ArrayList<OpenAndConflict>)request.getAttribute("openAndConflicts");
-    ArrayList<Conflict>conflicts = openAndConflicts.
+    ArrayList<Conflict> conflicts = (ArrayList<Conflict>)request.getAttribute("conflicts");
+    ArrayList<OpenChange> openChanges = (ArrayList<OpenChange>)request.getAttribute("conflicts");
     %>
     <div class="container">
-        <div class="row row0 content-text" style="height: 30%; margin-top:20px">
+        <div class="row row0 content-text" style="height: 25%; margin-top:20px">
             <div class="col-12">
                 <h3>Conflicts</h3>
                 <table style="width: 100%;">
                     <tr>
-                        <th>Sha1</th>
-                        <th>message</th>
-                        <th>created date</th>
-                        <th>creater</th>
+                        <th>Our Path</th>
+                        <%--<th class="hide">Theirs Path</th>--%>
+                        <%--<th class="hide">Parent Path</th>--%>
                     </tr>
-                    <% for (Conflict conflict:openAndConflicts) { %>
-                    <tr class="commits-tr">
-                        <td id="commit-sha1"><%= commit.getSha1() %></td>
-                        <td id="commit-msg"><%= commit.getMessage() %></td>
-                        <td id="commit-date"><%= commit.getTimestamp() %></td>
-                        <td id="commit-creater"><%= commit.getCommitter() %></td>
+                    <%--<% for (Conflict conflict:conflicts) { %>--%>
+                    <tr class="conflict-tr" path="C:\magit-ex3\ofir\repositories\rep 1\rep 1\fol1\Foo.java">
+                        <td id="conflict-ourpath">C:\magit-ex3\ofir\repositories\rep 1\rep 1\fol1\Foo.java</td>
+                        <td id="conflict-theirspath" class="hide">C:\magit-ex3\ofir\repositories\rep 1\rep 1\a.txt</td>
+                        <td id="conflict-parentpath" class="hide">Logic.asd</td>
                     </tr>
-                    <%}%>
+                    <tr class="conflict-tr" path="C:\magit-ex3\ofir\repositories\rep 1\rep 1\a.txt">
+                        <td id="conflict-ourpath">C:\magit-ex3\ofir\repositories\rep 1\rep 1\a.txt</td>
+                        <td id="conflict-theirspath" class="hide">C:\magit-ex3\ofir\repositories\rep 1\rep 1\fol1\ofir.txt</td>
+                        <td id="conflict-parentpath" class="hide">Logic.asd</td>
+                    </tr>
+                    <%--<%}%>--%>
+<%--                    <% for (Conflict conflict:conflicts) { %>
+                    <tr class="conflict-tr">
+                        <td id="conflict-ourpath"><%= conflict.getM_our() %></td>
+                        <td id="conflict-theirspath" class="hide"><%= conflict.getM_theirs() %></td>
+                        <td id="conflict-parentpath" class="hide"><%= conflict.getM_father() %></td>
+                    </tr>
+                    <%}%>--%>
                 </table>
             </div>
         </div>
-        <div class="row row1" style="height: 70%">
+        <div class="row row1" style="height: 60%">
             <%--<span class="options">--%>
+
                 <div id="ours" class="col-3 content-text" style="height:100%">
                     <h3>Ours</h3>
+                    <textarea id="textarea-our" class="textarea" readonly></textarea>
                 </div>
-                <div id="result" class="col-4 content-text" style="height:100%">
+                <div id="result" class="col-4 content-text result" style="height:100%">
                     <h3>Result</h3>
-
+                    <textarea id="txtarea-result" class="textarea"></textarea>
                 </div>
+
                 <div id="theirs" class="col-3 content-text" style="height:100%">
                     <h3>Theirs</h3>
-
+                    <textarea id="textarea-theirs" class="textarea" readonly></textarea>
                 </div>
             <%--</span>--%>
+        </div>
+        <br>
+        <div class="row row2" style="height: 15%; margin-top:20px;">
+            <div class="col-12">
+                <button id="save" class="btn btn-primary" path="" style="left:50%; right:50%;">Save Changes</button>
+            </div>
         </div>
     </div>
 </body>
 <script src="jQuery-v3.4.1.js"></script>
-<script src="repository.js"></script>
+<script src="conflict.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="sweetalert.js"></script>
+
 </html>
