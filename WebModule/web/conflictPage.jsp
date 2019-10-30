@@ -1,6 +1,7 @@
 <%@ page import="Logic.Conflict" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Logic.OpenChange" %><%--
+<%@ page import="Logic.OpenChange" %>
+<%@ page import="Logic.OpenAndConflict" %><%--
   Created by IntelliJ IDEA.
   User: OL
   Date: 28/10/2019
@@ -18,11 +19,21 @@
 </head>
 <body>
 <%
-    ArrayList<Conflict> conflicts = (ArrayList<Conflict>)request.getAttribute("conflicts");
-    ArrayList<OpenChange> openChanges = (ArrayList<OpenChange>)request.getAttribute("conflicts");
+    OpenAndConflict openAndConflicts = (OpenAndConflict)request.getAttribute("openAndConflicts");
+    ArrayList<Conflict> conflicts = openAndConflicts.getConflictList();
+    ArrayList<OpenChange> openChanges = openAndConflicts.getOpenChangesList();
     %>
     <div class="container">
-        <div class="row row0 content-text" style="height: 25%; margin-top:20px">
+        <div class="row row4" style="height: 10%; margin-top:20px">
+            <div class="col-3">
+                <button id="edit-btn" class="newbtn"><i class="fa fa-home wc-buttons"></i></button>
+            </div>
+            <div class="col-6"></div>
+            <div class="col-3">
+
+            </div>
+        </div>
+        <div class="row row0 content-text" style="height: 20%; margin-top:20px">
             <div class="col-12">
                 <h3>Conflicts</h3>
                 <table style="width: 100%;">
@@ -31,29 +42,17 @@
                         <%--<th class="hide">Theirs Path</th>--%>
                         <%--<th class="hide">Parent Path</th>--%>
                     </tr>
-                    <%--<% for (Conflict conflict:conflicts) { %>--%>
-                    <tr class="conflict-tr" path="C:\magit-ex3\ofir\repositories\rep 1\rep 1\fol1\Foo.java">
-                        <td id="conflict-ourpath">C:\magit-ex3\ofir\repositories\rep 1\rep 1\fol1\Foo.java</td>
-                        <td id="conflict-theirspath" class="hide">C:\magit-ex3\ofir\repositories\rep 1\rep 1\a.txt</td>
-                        <td id="conflict-parentpath" class="hide">Logic.asd</td>
-                    </tr>
-                    <tr class="conflict-tr" path="C:\magit-ex3\ofir\repositories\rep 1\rep 1\a.txt">
-                        <td id="conflict-ourpath">C:\magit-ex3\ofir\repositories\rep 1\rep 1\a.txt</td>
-                        <td id="conflict-theirspath" class="hide">C:\magit-ex3\ofir\repositories\rep 1\rep 1\fol1\ofir.txt</td>
-                        <td id="conflict-parentpath" class="hide">Logic.asd</td>
-                    </tr>
-                    <%--<%}%>--%>
-<%--                    <% for (Conflict conflict:conflicts) { %>
-                    <tr class="conflict-tr">
+                    <% for (Conflict conflict:conflicts) { %>
+                    <tr class="conflict-tr" path="<%= conflict.getM_our()%>">
                         <td id="conflict-ourpath"><%= conflict.getM_our() %></td>
                         <td id="conflict-theirspath" class="hide"><%= conflict.getM_theirs() %></td>
                         <td id="conflict-parentpath" class="hide"><%= conflict.getM_father() %></td>
                     </tr>
-                    <%}%>--%>
+                    <%}%>
                 </table>
             </div>
         </div>
-        <div class="row row1" style="height: 60%">
+        <div class="row row1" style="height: 55%">
             <%--<span class="options">--%>
 
                 <div id="ours" class="col-3 content-text" style="height:100%">

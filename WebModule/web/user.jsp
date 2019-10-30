@@ -27,7 +27,13 @@
     <% ArrayList<Repository> repositories= (ArrayList<Repository>)request.getAttribute("repositoriesList");%>
       <div class="container">
         <div class="row row0">
-            <button id="logout" type="button" class="btn btn-danger">LOGOUT</button>
+            <div class="col-3">
+                <button id="logout" type="button" class="btn btn-danger">LOGOUT</button>
+            </div>
+            <div class="col-6"></div>
+            <div class="col-3">
+                <button id="home-btn" class="home"><i class="fa fa-home wc-buttons"></i></button>
+            </div>
         </div>
           <h1 id="other_user">${user}</h1>
         <div class="row row1">

@@ -186,12 +186,7 @@ $('#merge_pr_button').click(function () {
     repo_name = $("#repoName").text();
     user_rr = $("#user_rr").text();
     repo_rr =$("#repo_rr").text();
-    $.ajax({
-        url: '/merge_pull_request',
-        type: 'POST',
-        dataType: 'json',
-        data: {"username":username, "repo_name":repo_name, "user_name_rr":user_rr, "repo_name_rr":repo_rr}
-    });
+    window.location.href='/merge_pull_request?username='+username+'&repo_name='+repo_name+'&user_name_rr"='+user_rr+'&repo_name_rr='+repo_rr;
 });
 
 $('body').on('click', '.li-file', function() {
@@ -424,10 +419,35 @@ $('#commitButton').click(function () {
 
 
 $(".commits-tr").click(function() {
-    commit_sha1 = $(this).find("#commit-sha1").text()
-    alert(commit_sha1);
+    let commit_sha1 = $(this).find("#commit-sha1").text()
+    $("commit-show-files").toggleClass("hide");
+    getCommitFiles(commit_sha1);
 });
-
+function getCommitFiles(commit_sha1){
+    username= myCookies['username'];
+    repo_name = $("#repoName").text();
+    $.ajax({
+        url: '/showCommit',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username":username, "repo_name":repo_name,"commit_sha1":commit_sha1},
+        success:function (result) {
+            console.log(result);
+            $("#hidden-path").attr("is_folder","true");
+            $("#hidden-path").attr("path",result.mainpath);
+            for(let i = 0; i < result.mainfolder.length; i++){
+                let fileSplitArray = result.mainfolder[i].path.split("\\\\");
+                let file_name = fileSplitArray[fileSplitArray.length-1];
+                if(!result.mainfolder[i].isFolder) {
+                    var li_element = "<li class=\"li-file\" path=\""+result.mainfolder[i].path+"\" is_folder=\"false\"><span class=\"fa-li\"><i class=\"fa fa-file\"></i></span>" + file_name + "</li>";
+                }else {
+                    li_element = "<li class=\"li-folder\" path=\""+result.mainfolder[i].path+"\" is_folder=\"true\"><span class=\"fa-li\"><i class=\"fa fa-folder\"></i></span>" + file_name +"<span class=\"folder\"></span></li>";
+                }
+                $("#ul-commit-files").append(li_element);
+            }
+        }
+    });
+}
 function commit(username,repo_name){
     new_commit_msg = prompt("Please enter commit message:", "");
     $.ajax({

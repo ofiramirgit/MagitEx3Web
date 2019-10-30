@@ -48,4 +48,17 @@ $(".fork_btn").click(function(){
     });
 });
 
+$("#home-btn").click(function () {
+    myCookies={};
+    var kv = document.cookie.split(";");
+    for(var id in kv)
+    {
+        var cookie = kv[id].split("=");
+        myCookies[cookie[0].trim()]=cookie[1];
+    }
+    username= myCookies['username'];
+    window.location.href='/homePage?username='+username;
+
+});
+
 

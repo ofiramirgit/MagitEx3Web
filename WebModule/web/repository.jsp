@@ -123,6 +123,18 @@
             </div>
             <div class="col-1"></div>
         </div>
+          <div class="row row10">
+              <div class="col-2"></div>
+              <div class="col-8">
+                  <div class="files">
+                      <div class="content">
+                          <ul class="fa-ul" id="ul-commit-files">
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-2"></div>
+          </div>
           <h4>WC</h4>
           <div class="row row5">
               <div class="col-2"></div>

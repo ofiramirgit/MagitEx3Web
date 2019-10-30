@@ -405,6 +405,9 @@ public class Logic {
     //-------DeleteExistBranch---------End--------
 
     //-------MergeBranches---------Start--------
+
+
+
     public OpenAndConflict MergeBranches(String oursBranch, String theirsBranch) {
         String sharedFatherSha1 = findSharedFather(oursBranch, theirsBranch);
         String Sha1Theirs = getContentOfFile(new File(getPathFolder("branches"), theirsBranch + ".txt"));
@@ -902,21 +905,25 @@ public class Logic {
         }
     }
 
-    public void MergePR(String i_UserLR) { //when user wants to merge
+    public OpenAndConflict MergePR(String i_UserLR) { //when user wants to merge
         String theirsUserName = i_UserLR;
         Path prPath = Paths.get(m_ActiveRepository, ".magit", "PR", theirsUserName);
         String headBranchName = getContentOfFile(Paths.get(prPath.toString(),"HEAD.txt").toFile());
-
+        OpenAndConflict openAnfConflict=null;
         try {
             movePRtoRepo(theirsUserName);
-             MergeBranches(getBranchActiveName(), headBranchName);
+//            openAnfConflict =  getOpenChangesAndConflict(getBranchActiveName(), headBranchName);
+            openAnfConflict= MergeBranches(getBranchActiveName(), headBranchName);
 
              //todo show conflicts
              //todo delete PR dir
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return openAnfConflict;
+
     }
+
 
     private void movePRtoRepo(String theirsUserName) throws IOException {
         Path branchesPath = Paths.get(getPathFolder("branches"));
@@ -931,7 +938,6 @@ public class Logic {
                 Files.copy(Paths.get(prPath.toString(), file.getName()), Paths.get(objectsPath.toString(),file.getName()), StandardCopyOption.REPLACE_EXISTING);
             }
         }
-
     }
     //-------------------------------------------COLLABORATION END-------------------------------------
 
@@ -943,6 +949,15 @@ public class Logic {
             return getContentOfFile(new File(getPathFolder(".magit") + File.separator + "RootFolderName.txt"));
         else
             return EmptyString;
+    }
+    public void deleteCommitSpreadFolder(File file) {
+        if (file.isDirectory()) {
+            for (File f : file.listFiles()) {//todo file nullpointer
+                deleteCommitSpreadFolder(f);
+            }
+            file.delete();
+        } else
+            file.delete();//todo delete return value
     }
 
     public void deleteFolder(File file) {
@@ -998,6 +1013,22 @@ public class Logic {
     //-------Files&Folders---------End----------
 
     //-------Commit&WC---------Start----------
+    public void spreadCommitToShow(String i_commitSha1){
+        File CommitStatus = new File(getPathFolder(".magit")+File.separator+"commitToShow"+File.separator+"CommitStatus.txt");
+        Commit commit = new Commit(getContentOfZipFile(getPathFolder("objects"), i_commitSha1));
+        String RootFolderSha1 = commit.getM_MainSHA1();
+        String path = getPathFolder(".magit")+File.separator+"commitToShow"+File.separator+ getRootFolderName();
+        try {
+
+            Files.createDirectory(Paths.get(getPathFolder(".magit")+File.separator+"commitToShow"));
+            Files.createDirectory(Paths.get(path));
+            Files.createFile(Paths.get(CommitStatus.getPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        buildingRepository(path, RootFolderSha1, ConstantsEnums.FileType.FOLDER, getPathFolder(".magit")+File.separator+"commitToShow"+File.separator+"CommitStatus.txt", true);
+    }
+
     private void spreadCommitToWc(String i_BranchName) {
         File BranchFile = new File(getPathFolder("branches") + File.separator + i_BranchName + ".txt");
         File CommitStatus = new File(getPathFolder(".magit")+File.separator+"CommitStatus.txt");
