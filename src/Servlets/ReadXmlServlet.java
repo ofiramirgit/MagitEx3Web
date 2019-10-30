@@ -20,26 +20,17 @@ public class ReadXmlServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         String username = req.getParameter("username");
-//        FileUploadServlet fileUploadServlet = new FileUploadServlet();
+        String filepath = req.getParameter("filepath");
 
-//        try {
-//            fileUploadServlet.doPost(req, res);
 
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
         try {
-            System.out.println("im here");
             Boolean repositoryAdded = true;
-//            logicManager.readXML("C:\\Users\\amira\\Desktop\\Java\\ex3-medium.xml", "C:\\magit-ex3\\"+username + "\\repositories");
-            logicManager.readXML("C:\\Users\\amira\\Desktop\\Java\\ex3-medium.xml", "C:\\magit-ex3\\" + username + "\\repositories");
-            System.out.println("im here2");
+            logicManager.readXML(filepath, "C:\\magit-ex3\\" + username + "\\repositories");
 
             map.put("repositoryAdded", repositoryAdded);
             write(res, map);
         } catch (Exception ex) {
-            System.out.println("Exception");
             ex.printStackTrace();
         }
 

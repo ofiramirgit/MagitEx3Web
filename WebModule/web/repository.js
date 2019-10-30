@@ -184,9 +184,8 @@ $('#merge_pr_button').click(function () {
     }
     username= myCookies['username'];
     repo_name = $("#repoName").text();
-    user_rr = $("#user_rr").text();
-    repo_rr =$("#repo_rr").text();
-    window.location.href='/merge_pull_request?username='+username+'&repo_name='+repo_name+'&user_name_rr"='+user_rr+'&repo_name_rr='+repo_rr;
+    window.location.href='/merge_pull_request?username='+username+'&repo_name='+repo_name;
+
 });
 
 $('body').on('click', '.li-file', function() {

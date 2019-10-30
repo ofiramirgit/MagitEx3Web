@@ -17,7 +17,6 @@ import java.util.Map;
 public class CheckOutActiveServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        WebLogic m_WebLogic = new WebLogic();
         Map<String,Object> map=new HashMap<String,Object>();
 
         String repo_name = req.getParameter("repo_name");

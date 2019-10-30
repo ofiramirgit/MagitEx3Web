@@ -43,10 +43,10 @@
                         <%--<th class="hide">Parent Path</th>--%>
                     </tr>
                     <% for (Conflict conflict:conflicts) { %>
-                    <tr class="conflict-tr" path="<%= conflict.getM_our()%>">
-                        <td id="conflict-ourpath"><%= conflict.getM_our() %></td>
-                        <td id="conflict-theirspath" class="hide"><%= conflict.getM_theirs() %></td>
-                        <td id="conflict-parentpath" class="hide"><%= conflict.getM_father() %></td>
+                    <tr class="conflict-tr" path="<%= conflict.getM_our().getM_filePath()%>">
+                        <td id="conflict-ourpath"><%= conflict.getM_our().getM_filePath() %></td>
+                        <td id="conflict-theirspath" class="hide"><%= conflict.getM_theirs().getM_filePath() %></td>
+                        <td id="conflict-parentpath" class="hide"><%= conflict.getM_father().getM_filePath() %></td>
                     </tr>
                     <%}%>
                 </table>

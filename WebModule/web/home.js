@@ -35,24 +35,27 @@ $(".repos-tr").click(function(){
 
 });
 
-$("#addButton").click(function(){
-    username=$("#username").text();
+$("#addButton").click(function() {
+    const xmlFileChooser = document.getElementById("xmlFileInput");
+    xmlFileChooser.click();
+});
 
-    $.ajax({
-        url: '/readXml',
-        type: 'POST',
-        dataType: 'json',
-        data: {"username":username},
-        success:function(result){
-            if(result.repositoryAdded){
-                // location.reload(true);
-                location.reload();
+$("#xmlFileInput").change(function() {
+        username = $("#username").text();
+    let xmlFileInput = document.getElementById("xmlFileInput").value;
+
+    if (xmlFileInput) {
+            $.ajax({
+                url: '/readXml',
+                type: 'POST',
+                dataType: 'json',
+                data: {"username": username, "filepath": xmlFileInput},
+                success: function () {
+                        location.reload();
             }
-            else
-            {
-                alert("Repository Already Exist");
-            }
+          });
+        }else {
+            alert("No file chosen");
         }
-    });
     });
 

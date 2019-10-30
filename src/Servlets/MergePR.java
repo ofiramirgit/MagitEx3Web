@@ -3,6 +3,8 @@ package Servlets;
 import Logic.Logic;
 import com.google.gson.Gson;
 import Logic.OpenAndConflict;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,20 +17,20 @@ import java.util.Map;
 @WebServlet(name = "MergePR", urlPatterns = {"/merge_pull_request"})
 public class MergePR extends HttpServlet {
 
-    public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        Map<String,Object> map=new HashMap<String,Object>();
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        Map<String,Object> map= new HashMap<>();
 
         String username = req.getParameter("username");
         String repo_name = req.getParameter("repo_name");
-        String RRUserName = req.getParameter("user_name_rr");
-        String RRName = req.getParameter("repo_name_rr");
 
-        Logic logicManager = new Logic(username, "C:\\magit-ex3\\" + username + "\\repositories\\" + repo_name ,RRUserName, "C:\\magit-ex3\\" + RRUserName + "\\repositories\\" + RRName);
+        Logic logicManager = new Logic(username, "C:\\magit-ex3\\" + username + "\\repositories\\" + repo_name);
 
         try {
             OpenAndConflict openAndConflict = logicManager.MergePR("amir");
-            map.put("openAndConflicts",openAndConflict);
-            write(res, map);
+            req.setAttribute("openAndConflicts",openAndConflict);
+//            write(res, map);
+            RequestDispatcher rd =  req.getRequestDispatcher("conflictPage.jsp");
+            rd.forward(req,res);
         } catch (Exception e) {
             e.printStackTrace();
         }

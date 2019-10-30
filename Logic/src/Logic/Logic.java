@@ -432,8 +432,8 @@ public class Logic {
         ArrayList<Conflict> ConflictFiles = new ArrayList<>();
 
         fillConflictAndOpenChangesList(wcOurs, wcTheirs, OpenChanges, ConflictFiles);
-        deleteFolder(new File(getPathFolder("merge") + File.separator + "Father"));
-        deleteFolder(new File(getPathFolder("merge") + File.separator + "Theirs"));
+      //  deleteFolder(new File(getPathFolder("merge") + File.separator + "Father"));
+      //  deleteFolder(new File(getPathFolder("merge") + File.separator + "Theirs"));
         return (new OpenAndConflict(ConflictFiles, OpenChanges));
     }
 

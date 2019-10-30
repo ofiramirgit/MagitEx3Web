@@ -49,7 +49,8 @@
                 <li><%= noti.getM_text() %></li>
                 <%}%>
             </div>
-            <button id="addButton" type="button" class="btn btn-primary">ADD REPOSITORY</button> <!--<input type="file" id="xmlFile">!-->
+            <button id="addButton" type="button" class="btn btn-primary">ADD REPOSITORY</button>
+            <input type="file" id="xmlFileInput" hidden="hidden">
         </div>
 
         <div class="col-7">
