@@ -27,8 +27,9 @@ public class MergePR extends HttpServlet {
 
         try {
             OpenAndConflict openAndConflict = logicManager.MergePR("amir");
+            req.setAttribute("username",username);
+            req.setAttribute("repo_name",repo_name);
             req.setAttribute("openAndConflicts",openAndConflict);
-//            write(res, map);
             RequestDispatcher rd =  req.getRequestDispatcher("conflictPage.jsp");
             rd.forward(req,res);
         } catch (Exception e) {

@@ -47,7 +47,15 @@ $('#save').click(function(){
     all_tr=$(".conflict-tr");
     if(all_tr.length==0)
     {
-        alert("ALL CONFLICT HANDLED!");
+        let username = $("#username").text();
+        let repo_name =  $("#repo_name").text();
+        let new_commit_msg = prompt("Please enter commit message:", "");
+        $.ajax({
+            url: '/commit',
+            type: 'POST',
+            dataType: 'json',
+            data: {"username":username, "repo_name":repo_name, "new_commit_msg":new_commit_msg}
+        });
     }
 
 });

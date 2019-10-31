@@ -24,8 +24,6 @@ public class WcSaveFileServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String filePath = req.getParameter("path");
         String file_content = req.getParameter("content");
-        System.out.println(filePath);
-        System.out.println(file_content);
         File file = new File(filePath);
         file.delete();
         Files.write(Paths.get(file.getPath()),file_content.getBytes());

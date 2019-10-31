@@ -22,13 +22,16 @@
     OpenAndConflict openAndConflicts = (OpenAndConflict)request.getAttribute("openAndConflicts");
     ArrayList<Conflict> conflicts = openAndConflicts.getConflictList();
     ArrayList<OpenChange> openChanges = openAndConflicts.getOpenChangesList();
-    %>
+    String username = (String) request.getAttribute("username");
+    String repo_name = (String) request.getAttribute("repo_name");
+
+%>
     <div class="container">
         <div class="row row4" style="height: 10%; margin-top:20px">
             <div class="col-3">
                 <button id="edit-btn" class="newbtn"><i class="fa fa-home wc-buttons"></i></button>
             </div>
-            <div class="col-6"></div>
+            <div class="col-6"><span id="username"><%=username%></span><span>, </span><span id ="repo_name"><%=repo_name%></span></div>
             <div class="col-3">
 
             </div>
