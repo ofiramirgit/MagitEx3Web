@@ -1,4 +1,4 @@
-package Servlets;
+package Servlets.Collaboration;
 
 import Logic.Logic;
 import WebLogic.WebLogic;

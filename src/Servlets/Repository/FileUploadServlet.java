@@ -1,4 +1,4 @@
-package Servlets;
+package Servlets.Repository;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;

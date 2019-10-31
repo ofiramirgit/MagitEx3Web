@@ -1,4 +1,4 @@
-package Servlets;
+package Servlets.Repository;
 
 import Logic.Logic;
 import WebLogic.WebLogic;

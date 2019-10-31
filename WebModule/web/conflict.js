@@ -50,12 +50,17 @@ $('#save').click(function(){
         let username = $("#username").text();
         let repo_name =  $("#repo_name").text();
         let new_commit_msg = prompt("Please enter commit message:", "");
+
+        //do commit
         $.ajax({
             url: '/commit',
             type: 'POST',
             dataType: 'json',
-            data: {"username":username, "repo_name":repo_name, "new_commit_msg":new_commit_msg}
+            data: {"username":username, "repo_name":repo_name, "new_commit_msg":new_commit_msg},
         });
-    }
 
+        //goto repository
+        window.location.href='/redirectrepo?repository_name='+repo_name+'&username='+username;
+
+    }
 });

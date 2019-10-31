@@ -1,4 +1,4 @@
-package Servlets;
+package Servlets.Repository;
 
 import Logic.Logic;
 import WebLogic.WebLogic;
@@ -9,13 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "WcChangedServlet", urlPatterns = {"/wc_changed"})
-public class WcChangedServlet extends HttpServlet {
+@WebServlet(name = "CreateBranchServlet", urlPatterns = {"/create_branch"})
+public class CreateBranchServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         WebLogic m_WebLogic = new WebLogic();
@@ -24,10 +23,9 @@ public class WcChangedServlet extends HttpServlet {
         String repo_name = req.getParameter("repo_name");
         String username = req.getParameter("username");
         String branch_name = req.getParameter("branch_name");
-
         Logic logicManager = new Logic(username, "C:\\magit-ex3\\"+ username +"\\repositories\\" + repo_name);
-        Boolean isNotChanged = logicManager.WcNotChanged();
-        map.put("isNotChanged", isNotChanged);
+        Boolean isValid = logicManager.createNewBranch(branch_name,username,repo_name);
+        map.put("isValid", isValid);
         write(res, map);
     }
 

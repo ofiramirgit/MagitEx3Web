@@ -184,7 +184,9 @@ $('#merge_pr_button').click(function () {
     }
     username= myCookies['username'];
     repo_name = $("#repoName").text();
-    window.location.href='/merge_pull_request?username='+username+'&repo_name='+repo_name;
+    theirs_user = prompt("Choose user to merge with:", "");
+
+    window.location.href='/merge_pull_request?username='+username+'&repo_name='+repo_name+'&theirs_user='+theirs_user;
 
 });
 

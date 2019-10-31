@@ -1,7 +1,5 @@
-package Servlets;
+package Servlets.WC;
 
-import Logic.Logic;
-import WebLogic.WebLogic;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -9,23 +7,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "CreateBranchServlet", urlPatterns = {"/create_branch"})
-public class CreateBranchServlet extends HttpServlet {
+@WebServlet(name = "WcCreateFileServlet", urlPatterns = {"/create_file"})
+public class WcCreateFileServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        WebLogic m_WebLogic = new WebLogic();
         Map<String,Object> map=new HashMap<String,Object>();
-
-        String repo_name = req.getParameter("repo_name");
-        String username = req.getParameter("username");
-        String branch_name = req.getParameter("branch_name");
-        Logic logicManager = new Logic(username, "C:\\magit-ex3\\"+ username +"\\repositories\\" + repo_name);
-        Boolean isValid = logicManager.createNewBranch(branch_name,username,repo_name);
-        map.put("isValid", isValid);
+        String folderPath = req.getParameter("folderPath");
+        String fileName = req.getParameter("file_name");
+        System.out.println(folderPath+File.separator+fileName);
+        Files.createFile(Paths.get(folderPath+File.separator+fileName));
+        map.put("result",true);
         write(res, map);
     }
 
@@ -34,5 +32,4 @@ public class CreateBranchServlet extends HttpServlet {
         res.setCharacterEncoding("UTF-8");
         res.getWriter().write(new Gson().toJson(map));
     }
-
 }

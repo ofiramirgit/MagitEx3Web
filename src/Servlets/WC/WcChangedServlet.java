@@ -1,4 +1,4 @@
-package Servlets;
+package Servlets.WC;
 
 import Logic.Logic;
 import WebLogic.WebLogic;
@@ -9,14 +9,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "CheckOutActiveServlet", urlPatterns = {"/check_out"})
-public class CheckOutActiveServlet extends HttpServlet {
+@WebServlet(name = "WcChangedServlet", urlPatterns = {"/wc_changed"})
+public class WcChangedServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        WebLogic m_WebLogic = new WebLogic();
         Map<String,Object> map=new HashMap<String,Object>();
 
         String repo_name = req.getParameter("repo_name");
@@ -24,8 +26,8 @@ public class CheckOutActiveServlet extends HttpServlet {
         String branch_name = req.getParameter("branch_name");
 
         Logic logicManager = new Logic(username, "C:\\magit-ex3\\"+ username +"\\repositories\\" + repo_name);
-        Boolean isCheckedOut = logicManager.CheckOutHeadBranch(branch_name);
-        map.put("isCheckedOut", isCheckedOut);
+        Boolean isNotChanged = logicManager.WcNotChanged();
+        map.put("isNotChanged", isNotChanged);
         write(res, map);
     }
 
