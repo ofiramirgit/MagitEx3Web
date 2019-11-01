@@ -25,9 +25,14 @@ public class WcChangedServlet extends HttpServlet {
         String username = req.getParameter("username");
         String branch_name = req.getParameter("branch_name");
 
+
         Logic logicManager = new Logic(username, "C:\\magit-ex3\\"+ username +"\\repositories\\" + repo_name);
-        Boolean isNotChanged = logicManager.WcNotChanged();
-        map.put("isNotChanged", isNotChanged);
+        Boolean isBranchExist = logicManager.isBranchExist(branch_name);
+        map.put("isBranchExist", isBranchExist);
+        if(isBranchExist) {
+            Boolean isNotChanged = logicManager.WcNotChanged();
+            map.put("isNotChanged", isNotChanged);
+        }
         write(res, map);
     }
 

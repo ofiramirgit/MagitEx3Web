@@ -8,6 +8,8 @@
 <%@ page import="java.nio.file.Paths" %>
 <%@ page import="java.io.File" %>
 <%@ page import="java.nio.file.Files" %>
+<%@ page import="Logic.Objects.BranchData" %>
+<%@ page import="Logic.Objects.BranchDates" %>
 <!DOCDTYPE html>
 <html>
     <head>
@@ -43,6 +45,7 @@
     <%
         ArrayList<Notification> notifications= (ArrayList<Notification>)request.getAttribute("notificationsList");
         ArrayList<CommitNode> commitBranch= (ArrayList<CommitNode>)request.getAttribute("commits");
+        ArrayList<BranchData> branchData= (ArrayList<BranchData>)request.getAttribute("branchData");
         Repository repository = (Repository)request.getAttribute("repository");
 
         Path remoteDataPath = Paths.get("C:\\magit-ex3\\" + request.getParameter("username") + "\\repositories\\" +repository.getName() +"\\RemoteData.txt");
@@ -86,7 +89,31 @@
         </div>
         <h3>Branches Details</h3>
         <span id="head_branch_span">Head Branch:  <span id="head_branch"><%=repository.getActiveBranch()%></span></span>
-        <div class="row row3">
+          <div class="row row3">
+              <div class="col-1"></div>
+              <div class="col-10">
+                  <div class="brnaches">
+                      <table style="width: 100%;">
+                          <tr>
+                              <th>Branch Name</th>
+                              <th>Pointing Sha1</th>
+                              <th>Commit Msg</th>
+                          </tr>
+                          <% for (BranchData branch:branchData) { %>
+                          <tr class=branch-tr">
+                              <td id="branch-name"><%= branch.getM_BranchName() %></td>
+                              <td id="branch-sha1"><%= branch.getM_CommitSha1() %></td>
+                              <td id="branch-msg"><%= branch.getM_CommitMessage() %></td>
+                          </tr>
+                          <%}%>
+                      </table>
+                  </div>
+
+              </div>
+              <div class="col-1"></div>
+          </div>
+
+              <div class="row row3">
           <div class="col-3">
               <button id="create_new_branch" type="button" class="btn btn-primary">New Branch</button>
           </div>
@@ -94,7 +121,6 @@
               <button id="checkout_head_branch" type="button" class="btn btn-primary">Check Out Head Branch</button>
           </div>
           <div class="col-3">
-              <button id="show_all_branches" type="button" class="btn btn-primary">Show All Branches</button>
           </div>
         </div>
           <h4>Commits</h4>
@@ -124,8 +150,7 @@
             <div class="col-1"></div>
         </div>
           <div class="row row10">
-              <div class="col-2"></div>
-              <div class="col-8">
+              <div class="col-5">
                   <div class="files">
                       <div class="content">
                           <ul class="fa-ul" id="ul-commit-files">
@@ -133,7 +158,13 @@
                       </div>
                   </div>
               </div>
-              <div class="col-2"></div>
+              <div class="col-7">
+                  <div class="file_content">
+                      <div class="content">
+                          <textarea id="content-commit-file" disabled></textarea>
+                      </div>
+                  </div>
+              </div>
           </div>
           <h4>WC</h4>
           <div class="row row5">

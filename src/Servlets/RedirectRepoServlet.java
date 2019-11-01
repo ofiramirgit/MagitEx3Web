@@ -1,5 +1,7 @@
 package Servlets;
+import Logic.Logic;
 import Logic.Node.CommitNode;
+import Logic.Objects.BranchData;
 import WebLogic.WebLogic;
 import WebLogic.WebObjects.Notification;
 import WebLogic.WebObjects.Repository;
@@ -20,6 +22,7 @@ public class RedirectRepoServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String username = req.getParameter("username");
         String repository_name = req.getParameter("repository_name");
+        Logic logicManager = new Logic(username, "C:\\magit-ex3\\"+ username +"\\repositories\\" + repository_name);
         if(m_WebLogic.userExist(username)) {
             ArrayList<Notification> notificationList = m_WebLogic.getNotifications(username);
             req.setAttribute("notificationsList", notificationList);
@@ -30,6 +33,8 @@ public class RedirectRepoServlet extends HttpServlet {
             req.setAttribute("repository", repositoryDetails);
             ArrayList<CommitNode> CommitBranchList = m_WebLogic.getAllBranchCommits(username,repositoryDetails);
             req.setAttribute("commits", CommitBranchList);
+            ArrayList<BranchData> branchData = (ArrayList<BranchData>) logicManager.GetAllBranchesDetails();
+            req.setAttribute("branchData", branchData);
             RequestDispatcher rd = req.getRequestDispatcher("repository.jsp");
             rd.forward(req, res);
         }

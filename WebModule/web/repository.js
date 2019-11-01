@@ -49,36 +49,37 @@ $('#checkout_head_branch').click(function () {
     username = myCookies['username'];
     repo_name = $("#repoName").text();
     branch_name = prompt("Please enter branch name:", "");
+
     $.ajax({
         url: '/wc_changed',
         type: 'POST',
         dataType: 'json',
         data: {"username": username, "repo_name": repo_name, "branch_name": branch_name},
         success: function (result) {
-            if(result.isNotChanged)
-            {
-                //checkout
-                checkout(username,repo_name);
+            if (result.isBranchExist) {
+                if (result.isNotChanged) {
+                    checkout(username, repo_name);
+                } else {
+                    //ask if to commit
+                    Swal.fire({
+                        title: 'There are Open changes',
+                        text: "Do You want to commit those changes first?",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Commit!'
+                    }).then((result) => {
+                        if (result.value) {
+                            commit(username, repo_name);
+                        }
+                        checkout(username, repo_name);
+                    })
+
+                }
             }
             else
-            {
-                //ask if to commit
-                Swal.fire({
-                    title: 'There are Open changes',
-                    text: "Do You want to commit those changes first?",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Commit!'
-                }).then((result) => {
-                    if (result.value) {
-                        commit(username,repo_name);
-                    }
-                    checkout(username,repo_name);
-                })
-
-            }
+                alert("BRANCH NAME IS NOT EXIST!");
         }
     });
 });
@@ -103,9 +104,6 @@ function checkout(username,repo_name) {
     });
 }
 
-$('#show_all_branches').click(function () {
-    alert('show all branches');
-});
 
 $('#pull').click(function () {
     myCookies={};
@@ -182,13 +180,29 @@ $('#merge_pr_button').click(function () {
         var cookie = kv[id].split("=");
         myCookies[cookie[0].trim()]=cookie[1];
     }
-    username= myCookies['username'];
+    let username= myCookies['username'];
     repo_name = $("#repoName").text();
     theirs_user = prompt("Choose user to merge with:", "");
 
-    window.location.href='/merge_pull_request?username='+username+'&repo_name='+repo_name+'&theirs_user='+theirs_user;
+    $.ajax({
+        url: '/check_user_exist',
+        type: 'POST',
+        dataType: 'json',
+        data: {"repo_name": repo_name, "username-me": username, "username-thries": theirs_user },
+        success: function(result){
+            if(result.isValid){
+                window.location.href='/merge_pull_request?username='+username+'&repo_name='+repo_name+'&theirs_user='+theirs_user;
+            }
+            else
+            {
+                alert(theirs_user + " did not make a PR to your repository");
+            }
+
+        }
+    });
 
 });
+
 
 $('body').on('click', '.li-file', function() {
     // brother_is_selected_and_folder(this);
@@ -200,7 +214,6 @@ $('body').on('click', '.li-file', function() {
     if (this === event.target) {
         let file_isFolder = $(this).attr("is_folder");
         if (file_isFolder == "false") {
-
             // $(this).addClass("item-selected");
             // $(this).removeClass("li-not-item-selected");
             let filePath = $(this).attr("path");
@@ -220,7 +233,6 @@ $('body').on('click', '.li-file', function() {
         }
     }
 });
-
 $('body').on('click', '.li-folder', function() {
     $("#content").prop("disabled", true);
     $("#save_file").removeClass("show").addClass("hide");
@@ -255,8 +267,6 @@ $('body').on('click', '.li-folder', function() {
                         }
                         attribute += "</ul>";
                         span.append(attribute);
-
-
                     }
                 });
 
@@ -266,6 +276,70 @@ $('body').on('click', '.li-folder', function() {
                 console.log($(this).find(".li-file"));
                 $(this).find(".li-file").remove();
                 $(this).find(".li-folder").remove();
+                $(this).find(".fa-ul").remove();
+            }
+        }
+    }
+});
+
+$('body').on('click', '.li-commit-file', function() {
+    if (this === event.target) {
+        let file_isFolder = $(this).attr("is_folder");
+        if (file_isFolder == "false") {
+
+            let filePath = $(this).attr("path");
+            console.log(filePath);
+            $.ajax({
+                url: '/wc_files',
+                type: 'POST',
+                dataType: 'json',
+                data: {"path": filePath, "isFolder": file_isFolder},
+                success: function (result) {
+                    $("#content-commit-file").val(result.content);
+                }
+            });
+        }
+    }
+});
+$('body').on('click', '.li-commit-folder', function() {
+    let filePath = $(this).attr("path");
+    let file_isFolder = $(this).attr("is_folder");
+    if (this === event.target) {
+        if (file_isFolder == "true") {
+            let icon = $(this).find(".fa").eq(0);
+            let span = $(this).find(".folder");
+            var attribute ="<ul class=\"fa-ul\">";
+            if (icon.hasClass("fa-folder")) {
+                $.ajax({
+                    url: '/wc_files',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {"path": filePath, "isFolder": file_isFolder},
+                    success: function (result) {
+                        icon.toggleClass("fa-folder").toggleClass("fa-folder-open");
+                        for (let i = 0; i < result.mainfolder.length; i++) {
+                            // span.empty();
+                            let fileSplitArray = result.mainfolder[i].path.split("\\\\");
+                            let file_name = fileSplitArray[fileSplitArray.length - 1];
+                            var li_elements = "";
+                            if (!result.mainfolder[i].isFolder) {
+                                li_elements += "<li class=\"li-commit-file\" path=\""+result.mainfolder[i].path+"\" is_folder=\"false\"><span class=\"fa-li\"><i class=\"fa fa-file\"></i></span>" + file_name + "</li>";
+                            } else {
+                                li_elements += "<li class=\"li-commit-folder\" path=\"" + result.mainfolder[i].path + "\" is_folder=\"true\"><span class=\"fa-li\"><i class=\"fa fa-folder\"></i></span>" + file_name + "<span class=\"folder\"></span></li>";
+                            }
+                            attribute += li_elements;
+                        }
+                        attribute += "</ul>";
+                        span.append(attribute);
+                    }
+                });
+
+            } else {
+                console.log("in else");
+                icon.toggleClass("fa-folder-open").toggleClass("fa-folder");
+                console.log($(this).find(".li-commit-file"));
+                $(this).find(".li-commit-file").remove();
+                $(this).find(".li-commit-folder").remove();
                 $(this).find(".fa-ul").remove();
             }
         }
@@ -292,6 +366,7 @@ $('#wc').click(function () {
 });
 
 function getRepositoryWc(){
+    $("#ul-files").empty();
     username= myCookies['username'];
     repo_name = $("#repoName").text();
     $.ajax({
@@ -391,7 +466,6 @@ $('#delete-btn').click(function () {
             data: {"path": filePath},
             success: function (data) {
                 if (data.result) {
-                    $("#ul-files").empty();
                     getRepositoryWc();
                     $("#content").val("");
                     $("#content").prop("disabled", true);
@@ -402,7 +476,6 @@ $('#delete-btn').click(function () {
         alert("can delete only files");
     }
 });
-
 
 $('#commitButton').click(function () {
     myCookies={};
@@ -418,13 +491,14 @@ $('#commitButton').click(function () {
 
 });
 
-
 $(".commits-tr").click(function() {
-    let commit_sha1 = $(this).find("#commit-sha1").text()
-    $("commit-show-files").toggleClass("hide");
+    let commit_sha1 = $(this).find("#commit-sha1").text();
+    $(".commits-tr").removeClass("commit_selected");
+    $(this).addClass("commit_selected");
     getCommitFiles(commit_sha1);
 });
 function getCommitFiles(commit_sha1){
+    $("#ul-commit-files").empty();
     username= myCookies['username'];
     repo_name = $("#repoName").text();
     $.ajax({
@@ -433,16 +507,13 @@ function getCommitFiles(commit_sha1){
         dataType: 'json',
         data: {"username":username, "repo_name":repo_name,"commit_sha1":commit_sha1},
         success:function (result) {
-            console.log(result);
-            $("#hidden-path").attr("is_folder","true");
-            $("#hidden-path").attr("path",result.mainpath);
             for(let i = 0; i < result.mainfolder.length; i++){
                 let fileSplitArray = result.mainfolder[i].path.split("\\\\");
                 let file_name = fileSplitArray[fileSplitArray.length-1];
                 if(!result.mainfolder[i].isFolder) {
-                    var li_element = "<li class=\"li-file\" path=\""+result.mainfolder[i].path+"\" is_folder=\"false\"><span class=\"fa-li\"><i class=\"fa fa-file\"></i></span>" + file_name + "</li>";
+                    var li_element = "<li class=\"li-commit-file\" path=\""+result.mainfolder[i].path+"\" is_folder=\"false\"><span class=\"fa-li\"><i class=\"fa fa-file\"></i></span>" + file_name + "</li>";
                 }else {
-                    li_element = "<li class=\"li-folder\" path=\""+result.mainfolder[i].path+"\" is_folder=\"true\"><span class=\"fa-li\"><i class=\"fa fa-folder\"></i></span>" + file_name +"<span class=\"folder\"></span></li>";
+                    li_element = "<li class=\"li-commit-folder\" path=\""+result.mainfolder[i].path+"\" is_folder=\"true\"><span class=\"fa-li\"><i class=\"fa fa-folder\"></i></span>" + file_name +"<span class=\"folder\"></span></li>";
                 }
                 $("#ul-commit-files").append(li_element);
             }
