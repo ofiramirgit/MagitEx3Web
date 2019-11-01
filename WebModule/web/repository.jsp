@@ -47,6 +47,8 @@
         ArrayList<CommitNode> commitBranch= (ArrayList<CommitNode>)request.getAttribute("commits");
         ArrayList<BranchData> branchData= (ArrayList<BranchData>)request.getAttribute("branchData");
         Repository repository = (Repository)request.getAttribute("repository");
+        Boolean isPR = (Boolean)request.getAttribute("is_pr");
+        Boolean isLR = (Boolean)request.getAttribute("is_lr");
 
         Path remoteDataPath = Paths.get("C:\\magit-ex3\\" + request.getParameter("username") + "\\repositories\\" +repository.getName() +"\\RemoteData.txt");
         String remoteName= "-";
@@ -213,6 +215,7 @@
               </div>
               <div class="col-2"></div>
           </div>
+          <%if(isLR) {%>
           <div id = "collaborateDiv" >
               <div id = "colla_div"><h3>Collaboration</h3></div>
               <div id = "pull_div">
@@ -225,12 +228,16 @@
                   <button id="pullRequest" class="btn btn-primary">Pull Request</button>
               </div>
           </div>
+          <% } %>
+          <%if(isPR) {%>
           <div id = "prDiv" >
               <div><h4>PR</h4></div>
               <div id = "merge_pr_div" class="col-4">
                   <button id="merge_pr_button" class="btn btn-primary">Merge PR</button>
+                  <button id="reject_pr_button" class="btn btn-primary">Reject PR</button>
               </div>
           </div>
+          <% } %>
       </div>
     </body>
     <script src="jQuery-v3.4.1.js"></script>

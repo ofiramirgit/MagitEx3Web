@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,13 @@ public class RedirectRepoServlet extends HttpServlet {
             req.setAttribute("commits", CommitBranchList);
             ArrayList<BranchData> branchData = (ArrayList<BranchData>) logicManager.GetAllBranchesDetails();
             req.setAttribute("branchData", branchData);
+
+            Boolean isPr = Files.exists(Paths.get(logicManager.getPathFolder(".magit"),"PR"));
+            req.setAttribute("is_pr", isPr);
+
+            Boolean isLr = Files.exists(Paths.get(logicManager.getPathFolder("branches"),"RTB"));
+            req.setAttribute("is_lr", isLr);
+
             RequestDispatcher rd = req.getRequestDispatcher("repository.jsp");
             rd.forward(req, res);
         }

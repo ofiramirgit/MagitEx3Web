@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,20 +31,28 @@ public class MergePR extends HttpServlet {
         try {
             OpenAndConflict openAndConflict = logicManager.MergePR(theirs_user);
             logicManager.handleOpenChanges(openAndConflict.getOpenChangesList());
-            req.setAttribute("username",username);
-            req.setAttribute("repo_name",repo_name);
-            req.setAttribute("openAndConflicts",openAndConflict);
-            RequestDispatcher rd =  req.getRequestDispatcher("conflictPage.jsp");
-            rd.forward(req,res);
 
-            //todo delete merge folder after conflict
+            if(!openAndConflict.getConflictList().isEmpty()){
+                req.setAttribute("username",username);
+                req.setAttribute("repo_name",repo_name);
+                req.setAttribute("theirs_user",theirs_user);
+                req.setAttribute("openAndConflicts",openAndConflict);
+                RequestDispatcher rd =  req.getRequestDispatcher("conflictPage.jsp");
+                rd.forward(req,res);
+            }
+
+            logicManager.createCommit("Merged with " + theirs_user);
+            File PR = new File(logicManager.getPathFolder(".magit")+File.separator+"PR");
+            logicManager.deleteFolder( new File(PR.toPath() + File.separator + theirs_user));
+            if(PR.listFiles()!=null)
+                logicManager.deleteFolder(PR);
+
+            logicManager.deleteFolder(new File(logicManager.getPathFolder("merge")));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void moveOpenChanges(ArrayList<OpenChange> openChangesList) {
-    }
 
 }

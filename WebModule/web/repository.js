@@ -188,7 +188,7 @@ $('#merge_pr_button').click(function () {
         url: '/check_user_exist',
         type: 'POST',
         dataType: 'json',
-        data: {"repo_name": repo_name, "username-me": username, "username-thries": theirs_user },
+        data: {"username":username, "repo_name":repo_name, "theirs_user":theirs_user},
         success: function(result){
             if(result.isValid){
                 window.location.href='/merge_pull_request?username='+username+'&repo_name='+repo_name+'&theirs_user='+theirs_user;
@@ -200,9 +200,41 @@ $('#merge_pr_button').click(function () {
 
         }
     });
-
 });
 
+$('#reject_pr_button').click(function () {
+    myCookies={};
+    var kv = document.cookie.split(";");
+    for(var id in kv)
+    {
+        var cookie = kv[id].split("=");
+        myCookies[cookie[0].trim()]=cookie[1];
+    }
+    let username= myCookies['username'];
+    repo_name = $("#repoName").text();
+    theirs_user = prompt("Choose user to reject PR:", "");
+    $.ajax({
+        url: '/check_user_exist',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username":username, "repo_name":repo_name, "theirs_user":theirs_user},
+        success: function(result){
+            if(result.isValid) {
+                $.ajax({
+                    url: '/reject_pull_request',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {"username": username, "repo_name": repo_name, "theirs_user": theirs_user}
+                });
+            }
+            else
+            {
+                alert(theirs_user + " did not make a PR to your repository");
+            }
+        }
+    });
+
+});
 
 $('body').on('click', '.li-file', function() {
     // brother_is_selected_and_folder(this);

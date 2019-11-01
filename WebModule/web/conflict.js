@@ -49,6 +49,7 @@ $('#save').click(function(){
     {
         let username = $("#username").text();
         let repo_name =  $("#repo_name").text();
+        let theirs_user =  $("#theirs_user").text();
         let new_commit_msg = prompt("Please enter commit message:", "");
 
         //do commit
@@ -57,6 +58,13 @@ $('#save').click(function(){
             type: 'POST',
             dataType: 'json',
             data: {"username":username, "repo_name":repo_name, "new_commit_msg":new_commit_msg},
+        });
+
+        $.ajax({
+            url: '/clean_pr',
+            type: 'POST',
+            dataType: 'json',
+            data: {"username":username, "repo_name":repo_name, "theirs_user":theirs_user},
         });
 
         //goto repository
