@@ -53,3 +53,11 @@ p a{
     text-decoration: none;
     font-weight:bold;
 }
+
+#signup{
+    color: #0000EE;
+    cursor:pointer;
+}
+#signup:hover{
+    color: #2ab5ee;
+}

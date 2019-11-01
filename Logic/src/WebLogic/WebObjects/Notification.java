@@ -11,8 +11,6 @@ public class Notification {
 
     public Notification(String notification) {
         String[] noti = notification.split("~");
-        System.out.println(noti[0]);
-        System.out.println(noti[1]);
         this.m_text = noti[0];
         this.m_CreatedTime = noti[1];
     }

@@ -60,19 +60,18 @@ public class WebLogic {
         File file = new File("C:\\magit-ex3\\"+username+"\\NOTIFICATIONS.txt");
         String[] arrayNotifications = getContentOfFile(file).split(System.lineSeparator());
         ArrayList<Notification> listNotifications = new ArrayList<Notification>();
-        for(String notification: arrayNotifications)
-        {
-            System.out.println(notification);
-            Notification noti = new Notification(notification);
-//            System.out.println(noti);
-            try {
-                Date notiDate = dateFormat.parse(noti.getM_CreatedTime());
-                Date lastLoggedOutDate = dateFormat.parse(userLastLoggedOut);
-                if (notiDate.compareTo(lastLoggedOutDate) > 0) {
-                    listNotifications.add(noti);
+        for(String notification: arrayNotifications) {
+            if (notification != "") {
+                Notification noti = new Notification(notification);
+                try {
+                    Date notiDate = dateFormat.parse(noti.getM_CreatedTime());
+                    Date lastLoggedOutDate = dateFormat.parse(userLastLoggedOut);
+                    if (notiDate.compareTo(lastLoggedOutDate) > 0) {
+                        listNotifications.add(noti);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
         }
         return listNotifications;

@@ -34,7 +34,8 @@ $('#create_new_branch').click(function () {
         success:function (result) {
             if(result.isValid)
             {
-                alert("BRANCH CREATED");
+                window.location.href='/redirectrepo?repository_name='+repo_name+'&username='+username;
+                // alert("BRANCH CREATED");
             }
             else
             {
@@ -69,13 +70,13 @@ $('#checkout_head_branch').click(function () {
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Yes, Commit!'
-                    }).then((result) => {
-                        if (result.value) {
+                    }).then((res) => {
+                        if (res.value) {
                             commit(username, repo_name);
                         }
                         checkout(username, repo_name);
                     })
-
+                    window.location.href='/redirectrepo?repository_name='+repo_name+'&username='+username;
                 }
             }
             else
@@ -558,7 +559,11 @@ function commit(username,repo_name){
         url: '/commit',
         type: 'POST',
         dataType: 'json',
-        data: {"username":username, "repo_name":repo_name, "new_commit_msg":new_commit_msg}
+        data: {"username":username, "repo_name":repo_name, "new_commit_msg":new_commit_msg},
+        success:function (result) {
+            if(result.isValid)
+                window.location.href='/redirectrepo?repository_name='+repo_name+'&username='+username;
+        }
     });
 }
 

@@ -13,12 +13,10 @@
         <input id="username" type="text" name="username" placeholder="Username">
         <input id="submit" type="submit">
     </form>
+    <p id="signup">Not a user? Please Sign Up</p>
 </div>
 </body>
-<%--<script--%>
-<%--        src="https://code.jquery.com/jquery-3.4.1.js"--%>
-<%--        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="--%>
-<%--        crossorigin="anonymous"></script>--%>
+
 <script src="jQuery-v3.4.1.js"></script>
 <script src="login.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
