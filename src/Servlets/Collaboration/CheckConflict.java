@@ -3,7 +3,6 @@ package Servlets.Collaboration;
 import Logic.Logic;
 import com.google.gson.Gson;
 import Logic.OpenAndConflict;
-import Logic.OpenChange;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,14 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "MergePR", urlPatterns = {"/merge_pull_request"})
-public class MergePR extends HttpServlet {
+@WebServlet(name = "CheckConflict", urlPatterns = {"/check_conflict"})
+public class CheckConflict extends HttpServlet {
 
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Map<String,Object> map=new HashMap<String,Object>();
 
         String username = req.getParameter("username");
@@ -34,25 +32,18 @@ public class MergePR extends HttpServlet {
             logicManager.handleOpenChanges(openAndConflict.getOpenChangesList());
 
             if(!openAndConflict.getConflictList().isEmpty()){
-                req.setAttribute("username",username);
-                req.setAttribute("repo_name",repo_name);
-                req.setAttribute("theirs_user",theirs_user);
-                req.setAttribute("openAndConflicts",openAndConflict);
-                RequestDispatcher rd =  req.getRequestDispatcher("conflictPage.jsp");
-                rd.forward(req,res);
+                map.put("isConflicts", true);
             }
             else{
+                map.put("isConflicts", false);
                 logicManager.createCommit("Merged with " + theirs_user);
                 File PR = new File(logicManager.getPathFolder(".magit")+File.separator+"PR");
                 logicManager.deleteFolder( new File(PR.toPath() + File.separator + theirs_user));
                 if(PR.listFiles()!=null)
                     logicManager.deleteFolder(PR);
                 logicManager.deleteFolder(new File(logicManager.getPathFolder("merge")));
-                req.setAttribute("username",username);
-                req.setAttribute("repository_name",repo_name);
-                RequestDispatcher rd =  req.getRequestDispatcher("repository.jsp");
-                rd.forward(req,res);
             }
+            write(res, map);
 
 
         } catch (Exception e) {

@@ -69,13 +69,15 @@
         <div class="row row1">
           <div class="col-5">
             <h3 id="repoName"><%=repository.getName()%></h3>
-            <div id="remote_repo">
-                <strong>Remote Repo</strong>
-                <div>
-                    User: <span id="user_rr">ofir</span><br>
-                    Repo Name: <span id="repo_rr">repo 2</span>
+              <%if(isLR) {%>
+                <div id="remote_repo">
+                    <strong>Remote Repo</strong>
+                    <div>
+                        User: <span id="user_rr"><%=remoteName%></span><br>
+                        Repo Name: <span id="repo_rr"><%=remoteRepoName%></span>
+                    </div>
                 </div>
-            </div>
+              <%}%>
           </div>
           <div class="col-1">
 

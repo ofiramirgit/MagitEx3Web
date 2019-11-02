@@ -191,8 +191,18 @@ $('#merge_pr_button').click(function () {
         dataType: 'json',
         data: {"username":username, "repo_name":repo_name, "theirs_user":theirs_user},
         success: function(result){
-            if(result.isValid){
-                window.location.href='/merge_pull_request?username='+username+'&repo_name='+repo_name+'&theirs_user='+theirs_user;
+            if(result.isValid) {
+                $.ajax({
+                    url: '/check_conflict',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {"username": username, "repo_name": repo_name, "theirs_user": theirs_user},
+                    success: function (result1) {
+                        if (result1.isConflicts) {
+                            window.location.href = '/merge_pull_request?username=' + username + '&repo_name=' + repo_name + '&theirs_user=' + theirs_user;
+                        }
+                    }
+                });
             }
             else
             {
