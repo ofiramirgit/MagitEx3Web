@@ -28,7 +28,7 @@ public class WebLogic {
         Notification notification = new Notification(message,date);
         File file = new File("C:\\magit-ex3\\"+other_user+"\\NOTIFICATIONS.txt");
         try {
-            Files.write(Paths.get(file.toString()),(System.lineSeparator()+notification.toString()).getBytes(),StandardOpenOption.APPEND);
+            Files.write(Paths.get(file.toString()),(notification.toString()+System.lineSeparator()).getBytes(),StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();
         }
