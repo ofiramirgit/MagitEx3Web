@@ -22,8 +22,6 @@ public class ReadXmlServlet extends HttpServlet {
         String username = req.getParameter("username");
         String filepath = req.getParameter("filepath");
 
-
-
         try {
             Boolean repositoryAdded = true;
             logicManager.readXML(filepath, "C:\\magit-ex3\\" + username + "\\repositories");

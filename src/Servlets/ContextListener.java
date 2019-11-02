@@ -14,7 +14,8 @@ public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
          try {
-             Files.createDirectories(Paths.get("c:\\magit-ex3-2"));
+             Files.createDirectories(Paths.get("c:\\magit-ex3"));
+             Files.createFile(Paths.get("c:\\magit-ex3\\users.txt"));
          } catch (IOException e) {
              e.printStackTrace();
          }
@@ -22,7 +23,7 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        File dir = new File("c:\\magit-ex3-2");
+        File dir = new File("c:\\magit-ex3");
         deleteDirectory(dir);
     }
 

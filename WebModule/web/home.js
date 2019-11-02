@@ -36,13 +36,22 @@ $(".repos-tr").click(function(){
 });
 
 $("#addButton").click(function() {
-    const xmlFileChooser = document.getElementById("xmlFileInput");
-    xmlFileChooser.click();
+    let xmlFileChooser = prompt("Please paste XML local path", "");
+
+    $.ajax({
+        url: '/readXml',
+        type: 'POST',
+        dataType: 'json',
+        data: {"username": username, "filepath": xmlFileChooser},
+        success: function () {
+            location.reload();
+        }
+    });
 });
 
-$("#xmlFileInput").change(function() {
+/*$("#xmlFileInput").change(function() {
         username = $("#username").text();
-    let xmlFileInput = document.getElementById("xmlFileInput").value;
+    let xmlFileInput = document.getElementById("xmlFileInput").files[0].get;
 
     if (xmlFileInput) {
             $.ajax({
@@ -57,5 +66,5 @@ $("#xmlFileInput").change(function() {
         }else {
             alert("No file chosen");
         }
-    });
+    });*/
 
